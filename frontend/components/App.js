@@ -1,51 +1,115 @@
-import React, { Component } from 'react';
-import $ from 'jquery';
+import React from 'react';
+import { StyleSheet, css } from 'aphrodite';
+import FontIcon from 'material-ui/FontIcon';
 
-class App extends Component {
-  state = {
-    color: 'green',
-  }
+import Constants from '../constants';
+import Header from './Header';
+import Footer from './Footer';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import getMuiTheme from 'material-ui/styles/getMuiTheme';
 
-  fetchRandomColor = () => {
-    $.ajax('/random_color').done(data => this.setState({ color: data.color }));
-  }
+const muiTheme = getMuiTheme({
+  palette: {
+    primary1Color: Constants.primaryColor,
+    primary2Color: Constants.darkPrimaryColor,
+  },
+});
 
-  render() {
-    return (
-      <div style={{ border: '5px solid', borderColor: this.state.color }}>
-        <Counter />
-        <div><button onClick={this.fetchRandomColor}>Change border color</button></div>
+const App = () => {
+  return (
+    <MuiThemeProvider muiTheme={muiTheme}>
+      <div className={css(styles.app)}>
+        <Header />
+        <div className={css(styles.content)}>
+          <div className={css(styles.banner)}>
+            <div className={css(styles.title)}>Tsumego Tsar</div>
+            <div className={css(styles.description)}>Tagline goes here</div>
+          </div>
+          <div className={css(styles.cardContainer)}>
+            <div className={css(styles.card)}>
+              <p className={css(styles.cardHeader)}>
+                <FontIcon className={css(styles.cardIcon) + ' material-icons'}>warning</FontIcon>
+                Identify weaknesses
+              </p>
+              <p className={css(styles.cardDescription)}>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc risus ligula, sollicitudin quis mattis quis, porttitor a ligula. Nunc tempor quam quis ullamcorper accumsan. Aenean nec vestibulum purus.</p>
+            </div>
+            <div className={css(styles.card)}>
+              <p className={css(styles.cardHeader)}>
+                <FontIcon className={css(styles.cardIcon) + ' material-icons'}>assignment</FontIcon>
+                Study smart
+              </p>
+              <p className={css(styles.cardDescription)}>Fusce non est a sem cursus rhoncus. Integer purus dolor, porttitor vitae tempus eget, sodales vitae mi. Nullam placerat, nisl sed dictum euismod, nisi lacus ullamcorper sem, a accumsan tortor neque finibus arcu. Mauris quis laoreet nisl.</p>
+            </div>
+            <div className={css(styles.card)}>
+              <p className={css(styles.cardHeader)}>
+                <FontIcon className={css(styles.cardIcon) + ' material-icons'}>assessment</FontIcon>
+                Track your progress
+              </p>
+              <p className={css(styles.cardDescription)}>Nulla in lorem finibus metus vulputate semper. Etiam id lobortis lectus. Quisque tristique pharetra quam eu sodales. In in justo et turpis lacinia sollicitudin non non felis.</p>
+            </div>
+          </div>
+        </div>
+        <Footer />
       </div>
-    );
-  }
-}
+    </MuiThemeProvider>
+  );
+};
 
-class Counter extends Component {
-  state = {
-    value: 0,
-  }
-
-  increment = () => {
-    this.setState(prevState => {
-      return { value: prevState.value + 1 };
-    });
-  }
-
-  decrement = () => {
-    this.setState(prevState => {
-      return { value: prevState.value - 1 };
-    });
-  }
-
-  render() {
-    return (
-      <div>
-        <div>Current counter: {this.state.value}</div>
-        <button onClick={this.increment}>+1</button>
-        <button onClick={this.decrement}>-1</button>
-      </div>
-    );
-  }
-}
+const styles = StyleSheet.create({
+  app: {
+    width: '100%',
+    height: '100%',
+    display: 'flex',
+    flexDirection: 'column',
+  },
+  content: {
+    display: 'flex',
+    flexDirection: 'column',
+    flex: '1',
+    alignItems: 'center',
+  },
+  banner: {
+    width: '100%',
+    height: '400px',
+    backgroundColor: Constants.primaryColor,
+    textTransform: 'uppercase',
+    fontFamily: 'Raleway',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    color: '#ffffff',
+  },
+  title: {
+    fontWeight: '900',
+    fontSize: 'calc(4vw + 4vh + 2vmin)', // Resizes the font relative to the window. Surprisingly difficult to do
+    textShadow: `7px 7px 0px ${Constants.darkPrimaryColor}`,
+  },
+  description: {
+    fontSize: '22px',
+    fontWeight: '600',
+    letterSpacing: '0.25em',
+  },
+  cardContainer: {
+    paddingLeft: '30px',
+    paddingRight: '30px',
+    display: 'flex',
+    flexDirection: 'row',
+  },
+  card: {
+    margin: '10px',
+    width: '300px',
+    height: '300px', 
+  },
+  cardHeader: {
+    fontSize: '28px',
+    fontWeight: '300',
+    display: 'flex',
+    alignItems: 'center',
+  },
+  cardIcon: {
+    marginRight: '7px',
+  },
+});
 
 export default App;
