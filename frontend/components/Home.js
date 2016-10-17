@@ -20,7 +20,7 @@ const Home = () => {
             <FontIcon className={css(styles.cardIcon) + ' material-icons'}>warning</FontIcon>
             Identify weaknesses
           </p>
-          <p className={css(styles.cardDescription)}><Link to="/sign_in">hello</Link>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc risus ligula, sollicitudin quis mattis quis, porttitor a ligula. Nunc tempor quam quis ullamcorper accumsan. Aenean nec vestibulum purus.</p>
+          <p className={css(styles.cardDescription)}>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc risus ligula, sollicitudin quis mattis quis, porttitor a ligula. Nunc tempor quam quis ullamcorper accumsan. Aenean nec vestibulum purus.</p>
         </div>
         <div className={css(styles.card)}>
           <p className={css(styles.cardHeader)}>
