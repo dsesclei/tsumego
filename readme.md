@@ -10,3 +10,4 @@
 
 While in the `frontend` directory, run `npm start`.
 
+(Potentially, you need to run 'sudo npm start')
