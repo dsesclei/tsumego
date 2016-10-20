@@ -6,6 +6,7 @@ import Header from './Header';
 import Footer from './Footer';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
+import TextField from 'material-ui/TextField';
 
 const muiTheme = getMuiTheme({
   palette: {

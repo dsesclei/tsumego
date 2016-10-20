@@ -1,12 +1,11 @@
 import React from 'react';
 import { StyleSheet, css } from 'aphrodite';
 import FontIcon from 'material-ui/FontIcon';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import { Link } from 'react-router';
 
 import Constants from '../constants';
 import Page from './Page';
+import TextField from 'material-ui/TextField';
 
 const Home = () => {
   return (

@@ -1,18 +1,26 @@
 import ReactDOM from 'react-dom';
 import React from 'react';
+import { Provider } from 'react-redux';
+import { applyMiddleware, createStore } from 'redux';
+import thunk from 'redux-thunk';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 import { Router, Route, browserHistory } from 'react-router';
 import { AppContainer } from 'react-hot-loader';
 
+import reducers from './reducers';
 import Root from './components/Root';
 
 // Needed for onTouchTap
 // http://stackoverflow.com/a/34015469/988941
 injectTapEventPlugin();
 
+const store = createStore(reducers, applyMiddleware(thunk));
+
 ReactDOM.render((
   <AppContainer>
-    <Root />
+    <Provider store={store}>
+      <Root />
+    </Provider>
   </AppContainer>
 ), document.getElementById('entrypoint'));
 
@@ -21,7 +29,9 @@ if (module.hot) {
     const NextRoot = require('./components/Root').default;
     ReactDOM.render((
       <AppContainer>
-        <NextRoot />
+        <Provider store={store}>
+          <NextRoot />
+        </Provider>
       </AppContainer>
     ), document.getElementById('entrypoint')
     );
