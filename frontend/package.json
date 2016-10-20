@@ -19,6 +19,7 @@
     "redux-thunk": "^2.1.0",
     "webpack": "^1.13.2",
     "webpack-bundle-tracker": "0.0.93",
+    "webpack-dashboard": "^0.2.0",
     "webpack-dev-server": "^1.16.2"
   },
   "dependencies": {
