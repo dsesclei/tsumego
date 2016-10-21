@@ -2,7 +2,7 @@ import React from 'react';
 import { Router, Route, hashHistory } from 'react-router';
 
 import Home from './Home';
-import SignIn from './SignIn';
+import SignIn from '../containers/SignIn';
 
 const Root = () => {
   return (

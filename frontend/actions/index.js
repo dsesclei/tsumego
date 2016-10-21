@@ -1,15 +1,20 @@
-const LOGIN_REQUEST = 'LOGIN_REQUEST';
-const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
-
-function login() {
-  return { type: LOGIN_SUCCESS };
+export function signInRequest(username, password) {
+  return dispatch => {
+    dispatch({ type: 'SIGN_IN' });
+    fetch('/sign_in', { method: 'POST', body: JSON.stringify({ username, password }) }).then(response => response.json().then(json => {
+      dispatch({
+        type: 'SIGN_IN',
+        success: json.success,
+        id: json.id,
+        username: json.username,
+      });
+    }));
+  }
 }
 
-function loginAsync() {
+export function signOutRequest() {
   return dispatch => {
-    fetch('/login')
-      .then(response => {
-        console.log(response);
-      });
-  }
+    dispatch({ type: 'SIGN_OUT' });
+    fetch('/sign_out');
+  };
 }

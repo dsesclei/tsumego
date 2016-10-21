@@ -7,13 +7,13 @@ import Page from './Page';
 import RaisedButton from 'material-ui/RaisedButton';
 
 
-const SignIn = () => {
+const SignIn = ({ onSubmit }) => {
   let usernameEl, passwordEl;
   return (
     <Page>
       <div className={css(styles.container)}>
         <h3>Sign in</h3>
-        <form onSubmit={e => e.preventDefault() || console.log(usernameEl.value, passwordEl.value)}>
+        <form onSubmit={e => { e.preventDefault(); onSubmit(usernameEl.value, passwordEl.value); }}>
           <div>
             <TextField name="username" hintText="Username" ref={r => usernameEl = r.getInputNode()} />
           </div>
