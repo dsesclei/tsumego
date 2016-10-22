@@ -1,23 +1,28 @@
 # Setting up Tsumego skeleton
 
-    * Install Git
-    * Clone the repository
-    * `git clone git@github.com:dsesclei/tsumego.git`
-    * Install Python 2.7
-    * Install pip
-    * `pip install Django==1.10.2`
-    * `python manage.py migrate`
+Install Git
 
-    * Install Node.js
-    * pip install -r requirements.txt
-    * `cd frontend`
-    * `npm install`
-    * `npm install webpack -g`
-    * `webpack`
+Clone the repository
 
-## React Localhost
+Install Python 2.7
 
-`localhost:8000`
+Install pip
+
+`pip install Django==1.10.2`
+
+`python manage.py migrate`
+
+Install Node.js
+
+pip install -r requirements.txt
+
+`cd frontend`
+
+`npm install`
+
+`npm install webpack -g`
+
+`webpack`
     
 ### Updating
 
@@ -30,4 +35,8 @@
 ### Running the JavaScript Server
 
 While in the `frontend` directory, run `npm start`.
+
+## React Localhost
+
+`localhost:8000`
 
