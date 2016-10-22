@@ -13,12 +13,12 @@ const SignIn = ({ onSubmit }) => {
     <Page>
       <div className={css(styles.container)}>
         <h3>Sign in</h3>
-        <form onSubmit={e => { e.preventDefault(); onSubmit(usernameEl.value, passwordEl.value); }}>
+        <form onSubmit={e => { e.preventDefault(); onSubmit(usernameEl.getInputNode().value, passwordEl.getInputNode().value); }}>
           <div>
-            <TextField name="username" hintText="Username" ref={r => usernameEl = r.getInputNode()} />
+            <TextField name="username" hintText="Username" ref={r => usernameEl = r} />
           </div>
           <div>
-            <TextField name="password" hintText="Password" type="password" ref={r => passwordEl = r.getInputNode()} />
+            <TextField name="password" hintText="Password" type="password" ref={r => passwordEl = r} />
           </div>
           <div className={css(styles.submit)}>
             <RaisedButton primary={true} type="submit" label="Submit" />
