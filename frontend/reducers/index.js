@@ -17,17 +17,7 @@ function user(state = initialState, action) {
   }
 }
 
-function profile(state = {}, action) {
-  switch (action.type) {
-    case 'CHANGE_PROFILE_TAB':
-      return { slideIndex: action.slideIndex };
-    default:
-      return state;
-  }
-}
-
 export default combineReducers({
   user,
-  profile,
 });
 
