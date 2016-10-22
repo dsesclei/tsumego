@@ -3,6 +3,7 @@ import React from 'react';
 import { Provider } from 'react-redux';
 import { applyMiddleware, createStore } from 'redux';
 import thunk from 'redux-thunk';
+import createLogger from 'redux-logger';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 import { Router, Route, browserHistory } from 'react-router';
 import { AppContainer } from 'react-hot-loader';
@@ -14,7 +15,8 @@ import Root from './components/Root';
 // http://stackoverflow.com/a/34015469/988941
 injectTapEventPlugin();
 
-const store = createStore(reducers, applyMiddleware(thunk));
+const logger = createLogger();
+const store = createStore(reducers, applyMiddleware(thunk, logger));
 
 ReactDOM.render((
   <AppContainer>

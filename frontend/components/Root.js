@@ -3,6 +3,7 @@ import { Router, Route, hashHistory } from 'react-router';
 
 import Home from './Home';
 import SignIn from '../containers/SignIn';
+import Profile from '../containers/Profile';
 
 const Root = () => {
   return (
@@ -10,6 +11,7 @@ const Root = () => {
     <Router key={new Date()} history={hashHistory}>
       <Route path="/" component={Home} />
       <Route path="/sign_in" component={SignIn} />
+      <Route path="/profile" component={Profile} />
     </Router>
   );
 };
