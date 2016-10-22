@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { signOutRequest, changeProfileTab } from '../actions';
+import { signOutRequest } from '../actions';
 import Profile from '../components/Profile';
 
 const mapStateToProps = (state) => {

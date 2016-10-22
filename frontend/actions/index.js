@@ -18,10 +18,3 @@ export function signOutRequest() {
     fetch('/sign_out');
   };
 }
-
-export const changeProfileTab = (slideIndex) => {
-  return {
-    type: 'CHANGE_PROFILE_TAB',
-    slideIndex,
-  }
-}
