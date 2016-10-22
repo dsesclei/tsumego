@@ -8,16 +8,16 @@ import RaisedButton from 'material-ui/RaisedButton';
 const Header = ({ isSignedIn, username, onSignOut }) => {
   const SignedOut = (
     <div className={css(styles.header)}>
-      <FlatButton
-        containerElement={<Link to="/sign_in" />}
-        label="Sign in"
-        className={css(styles.signIn)}
-        />
-      <RaisedButton
-        containerElement={<Link to="/register" />}
-        primary={true}
-        label="Register"
-        />
+        <FlatButton
+          containerElement={<Link to="/sign_in" />}
+          label="Sign in"
+          className={css(styles.signIn)}
+          />
+        <RaisedButton
+         containerElement={<Link to="/register" />}
+         primary={true}
+          label="Register"
+          />
     </div>
   );
 
@@ -32,22 +32,53 @@ const Header = ({ isSignedIn, username, onSignOut }) => {
     </div>
   );
 
+  const Logo = (
+    <Link to={'/'} className={css(styles.inlineLink)}>
+      <img src={'/static/image/tsumego_logo.png'} className={css(styles.logo)} />
+      <p> TSUMEGO TSAR </p>
+    </Link>
+  );
+
   return (
     <div className={css(styles.header)}>
-      {isSignedIn ? SignedIn : SignedOut}
+      <div className={css(styles.flexStart)}> 
+        {Logo}
+      </div>
+      <div className={css(styles.flexEnd)}>
+        {isSignedIn ? SignedIn : SignedOut}
+      </div>
     </div>
   );
 };
 
 const styles = StyleSheet.create({
   header: {
-    paddingRight: '30px',
     color: '#ffffff',
     display: 'flex',
     alignItems: 'center',
-    justifyContent: 'flex-end',
+    justifyContent: 'space-between',
     height: '50px',
     backgroundColor: Constants.darkPrimaryColor,
+  },
+  flexStart: {
+    display: 'flex',
+    justifyContent: 'flex-start',
+    paddingLeft: '10px',
+  },
+  flexEnd: {
+    display: 'flex',
+    justifyContent: 'flex-end',
+    paddingRight: '30px',
+  },
+  logo: {
+    height: '50px',
+    marginRight: '10px',
+  },
+  inlineLink: {
+    fontWeight: 'bold',
+    color: '#ffffff',
+    display: 'flex',
+    alignItems: 'center',
   },
   signIn: {
     color: '#ffffff',
