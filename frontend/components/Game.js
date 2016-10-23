@@ -25,7 +25,6 @@ const Game = ({ username, problems = [{title:'title1'}] }) => {
 const styles = StyleSheet.create({
   banner: {
     width: '100%',
-    height: '500px',
     backgroundColor: Constants.primaryColor,
     fontFamily: 'Raleway',
     display: 'flex',
