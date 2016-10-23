@@ -68,19 +68,34 @@ const line = ({ rowNum, colNum, cellSize, padding }) => {
   );
 }
 
-const stone = ({ stones, rowNum, colNum, cellSize, padding }) => {
+const sayClick = (row, col) => {
+  console.log(`Click at ${row},${col}`);
+}
+
+const stone = ({ stones, rowNum, colNum, cellSize, padding, playerColor }) => {
   let leftTopX = padding;
   let leftTopY = padding;
   let points = [];
-  let radius = ((cellSize / 2) * 0.8).toFixed(2);
-  // horizontal lines 
+  let radius = ((cellSize / 2) * 0.9).toFixed(2);
+  let stoneCache = {};
   for (let stone of stones) {
-    points.push({
-      cx: (leftTopX + stone.x * cellSize).toFixed(2),
-      cy: (leftTopY + stone.y * cellSize).toFixed(2), 
-      color: stone.color,       
-    });
-  };
+    let key = stone.x + "," + stone.y;
+    stoneCache[key] = stone;
+  }
+  
+  for (let i = 0; i <= rowNum; i++) {
+    for (let j = 0; j <= colNum; j++) {
+      let key = i + "," + j;
+      points.push({
+        x: i,
+        y: j,
+        cx: (leftTopX + j * cellSize).toFixed(2),
+        cy: (leftTopY + i * cellSize).toFixed(2), 
+        color: (key in stoneCache) ? stoneCache[key].color : playerColor == 'white' ? 'white' : 'black',  
+        hidden: (key in stoneCache) ? false : true,
+      });
+    }
+  }
   let circles = points.map(point=>
           <circle 
             cx={point.cx} 
@@ -89,6 +104,11 @@ const stone = ({ stones, rowNum, colNum, cellSize, padding }) => {
             stroke={point.color} 
             strokeWidth="1" 
             fill={point.color} 
+            onClick={() => {
+              if (point.hidden)
+                sayClick(point.x, point.y);
+            }}
+            className={point.hidden ? css(styles.hiddenStone) : null}
             key={`${point.cx},${point.cy}`} />
         );
   return (
@@ -101,6 +121,7 @@ const Board = ({ stones = [], rowStart = 0, rowEnd = 18, colStart = 0, colEnd = 
   let padding = 30;
   rowEnd = getRandomInt(0,19);// FOR FUN
   colEnd = getRandomInt(0,19);// FOR FUN
+  let playerColor = rowEnd % 2 == 0 ? 'black' : 'white'; // FOR FUN
   let rowNum = Math.abs(rowEnd - rowStart) + 1;
   let colNum = Math.abs(colEnd - colStart) + 1;
   stones = (stones.length && stones) || generateRandomStones({ rowNum, colNum }); // FOR FUN
@@ -110,7 +131,7 @@ const Board = ({ stones = [], rowStart = 0, rowEnd = 18, colStart = 0, colEnd = 
     <svg height={boardWidth} width={boardHeight} className={css(styles.board)}>
       {border({ rowNum, colNum, cellSize, padding })}
       {line({ rowNum, colNum, cellSize, padding })}
-      {stone({ stones, rowNum, colNum, cellSize, padding })}
+      {stone({ stones, rowNum, colNum, cellSize, padding, playerColor })}
     </svg>
   );
 };
@@ -126,6 +147,14 @@ const styles = StyleSheet.create({
   submit: {
     marginTop: '15px',
   },
+  hiddenStone: {
+    opacity: '0',
+    ':hover': {
+      opacity: '0.6',
+      transition: 'opacity .15s ease-in-out .0s',
+      cursor: 'pointer',
+    }
+  }
 });
 
 export default Board;
