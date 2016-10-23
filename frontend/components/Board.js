@@ -2,6 +2,10 @@ import React from 'react';
 import { StyleSheet, css } from 'aphrodite';
 import Constants from '../constants';
 
+const getStoneKey = (x, y) => {
+  return (x + 1) * 100 + y;
+}
+
 const getBoardWidth = ({ rowNum, cellSize, padding }) => {
   return (rowNum * cellSize + padding * 2).toFixed(2);
 }
@@ -79,23 +83,24 @@ const stone = ({ stones, rowNum, colNum, cellSize, padding, playerColor }) => {
   let radius = ((cellSize / 2) * 0.9).toFixed(2);
   let stoneCache = {};
   for (let stone of stones) {
-    let key = stone.x + "," + stone.y;
+    let key = getStoneKey(stone.x,stone.y);
     stoneCache[key] = stone;
   }
   
-  for (let i = 0; i <= rowNum; i++) {
-    for (let j = 0; j <= colNum; j++) {
-      let key = i + "," + j;
+  for (let i = 0; i <= colNum; i++) {
+    for (let j = 0; j <= rowNum; j++) {
+      let key = getStoneKey(i,j);
       points.push({
-        x: i,
-        y: j,
-        cx: (leftTopX + j * cellSize).toFixed(2),
-        cy: (leftTopY + i * cellSize).toFixed(2), 
+        x: j,
+        y: i,
+        cx: (leftTopX + i * cellSize).toFixed(2),
+        cy: (leftTopY + j * cellSize).toFixed(2), 
         color: (key in stoneCache) ? stoneCache[key].color : playerColor == 'white' ? 'white' : 'black',  
         hidden: (key in stoneCache) ? false : true,
       });
     }
   }
+  console.log(points);
   let circles = points.map(point=>
           <circle 
             cx={point.cx} 
@@ -109,7 +114,7 @@ const stone = ({ stones, rowNum, colNum, cellSize, padding, playerColor }) => {
                 sayClick(point.x, point.y);
             }}
             className={point.hidden ? css(styles.hiddenStone) : null}
-            key={`${point.cx},${point.cy}`} />
+            key={getStoneKey(point.x,point.y)} />
         );
   return (
     circles
