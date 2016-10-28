@@ -5,7 +5,6 @@ import { applyMiddleware, createStore } from 'redux';
 import thunk from 'redux-thunk';
 import createLogger from 'redux-logger';
 import injectTapEventPlugin from 'react-tap-event-plugin';
-import { Router, Route, browserHistory } from 'react-router';
 import { AppContainer } from 'react-hot-loader';
 
 import reducers from './reducers';
@@ -28,7 +27,10 @@ ReactDOM.render((
 
 if (module.hot) {
   module.hot.accept('./components/Root', () => {
+    /* eslint-disable global-require */
     const NextRoot = require('./components/Root').default;
+    /* eslint-enable global-require */
+
     ReactDOM.render((
       <AppContainer>
         <Provider store={store}>

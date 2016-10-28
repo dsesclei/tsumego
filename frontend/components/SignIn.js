@@ -1,14 +1,22 @@
 import React from 'react';
 import { StyleSheet, css } from 'aphrodite';
 import TextField from 'material-ui/TextField';
-
-import Constants from '../constants';
-import Page from './Page';
 import RaisedButton from 'material-ui/RaisedButton';
 
+import Page from './Page';
+
+const styles = StyleSheet.create({
+  container: {
+    width: '256px',
+  },
+  submit: {
+    marginTop: '15px',
+  },
+});
 
 const SignIn = ({ onSubmit }) => {
-  let usernameEl, passwordEl;
+  let usernameEl;
+  let passwordEl;
   return (
     <Page>
       <div className={css(styles.container)}>
@@ -21,21 +29,12 @@ const SignIn = ({ onSubmit }) => {
             <TextField name="password" hintText="Password" type="password" ref={r => passwordEl = r} />
           </div>
           <div className={css(styles.submit)}>
-            <RaisedButton primary={true} type="submit" label="Submit" />
+            <RaisedButton primary type="submit" label="Submit" />
           </div>
         </form>
       </div>
     </Page>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    width: '256px',
-  },
-  submit: {
-    marginTop: '15px',
-  },
-});
 
 export default SignIn;

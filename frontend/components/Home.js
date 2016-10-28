@@ -1,44 +1,9 @@
 import React from 'react';
 import { StyleSheet, css } from 'aphrodite';
 import FontIcon from 'material-ui/FontIcon';
-import { Link } from 'react-router';
 
 import Constants from '../constants';
 import Page from './Page';
-import TextField from 'material-ui/TextField';
-
-const Home = () => {
-  return (
-    <Page>
-      <div className={css(styles.banner)}>
-        <div className={css(styles.title)}>Tsumego Tsar</div>
-      </div>
-      <div className={css(styles.cardContainer)}>
-        <div className={css(styles.card)}>
-          <p className={css(styles.cardHeader)}>
-            <FontIcon className={css(styles.cardIcon) + ' material-icons'}>warning</FontIcon>
-            Identify weaknesses
-          </p>
-          <p className={css(styles.cardDescription)}>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc risus ligula, sollicitudin quis mattis quis, porttitor a ligula. Nunc tempor quam quis ullamcorper accumsan. Aenean nec vestibulum purus.</p>
-        </div>
-        <div className={css(styles.card)}>
-          <p className={css(styles.cardHeader)}>
-            <FontIcon className={css(styles.cardIcon) + ' material-icons'}>assignment</FontIcon>
-            Study smart
-          </p>
-          <p className={css(styles.cardDescription)}>Fusce non est a sem cursus rhoncus. Integer purus dolor, porttitor vitae tempus eget, sodales vitae mi. Nullam placerat, nisl sed dictum euismod, nisi lacus ullamcorper sem, a accumsan tortor neque finibus arcu. Mauris quis laoreet nisl.</p>
-        </div>
-        <div className={css(styles.card)}>
-          <p className={css(styles.cardHeader)}>
-            <FontIcon className={css(styles.cardIcon) + ' material-icons'}>assessment</FontIcon>
-            Track your progress
-          </p>
-          <p className={css(styles.cardDescription)}>Nulla in lorem finibus metus vulputate semper. Etiam id lobortis lectus. Quisque tristique pharetra quam eu sodales. In in justo et turpis lacinia sollicitudin non non felis.</p>
-        </div>
-      </div>
-    </Page>
-  );
-};
 
 const styles = StyleSheet.create({
   banner: {
@@ -72,7 +37,7 @@ const styles = StyleSheet.create({
   card: {
     margin: '10px',
     width: '300px',
-    height: '300px', 
+    height: '300px',
   },
   cardHeader: {
     fontSize: '28px',
@@ -84,5 +49,36 @@ const styles = StyleSheet.create({
     marginRight: '7px',
   },
 });
+
+const Home = () => (
+  <Page>
+    <div className={css(styles.banner)}>
+      <div className={css(styles.title)}>Tsumego Tsar</div>
+    </div>
+    <div className={css(styles.cardContainer)}>
+      <div className={css(styles.card)}>
+        <p className={css(styles.cardHeader)}>
+          <FontIcon className={`${css(styles.cardIcon)} material-icons`}>warning</FontIcon>
+          Identify weaknesses
+        </p>
+        <p className={css(styles.cardDescription)}>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc risus ligula, sollicitudin quis mattis quis, porttitor a ligula. Nunc tempor quam quis ullamcorper accumsan. Aenean nec vestibulum purus.</p>
+      </div>
+      <div className={css(styles.card)}>
+        <p className={css(styles.cardHeader)}>
+          <FontIcon className={`${css(styles.cardIcon)} material-icons`}>assignment</FontIcon>
+          Study smart
+        </p>
+        <p className={css(styles.cardDescription)}>Fusce non est a sem cursus rhoncus. Integer purus dolor, porttitor vitae tempus eget, sodales vitae mi. Nullam placerat, nisl sed dictum euismod, nisi lacus ullamcorper sem, a accumsan tortor neque finibus arcu. Mauris quis laoreet nisl.</p>
+      </div>
+      <div className={css(styles.card)}>
+        <p className={css(styles.cardHeader)}>
+          <FontIcon className={`${css(styles.cardIcon)} material-icons`}>assessment</FontIcon>
+          Track your progress
+        </p>
+        <p className={css(styles.cardDescription)}>Nulla in lorem finibus metus vulputate semper. Etiam id lobortis lectus. Quisque tristique pharetra quam eu sodales. In in justo et turpis lacinia sollicitudin non non felis.</p>
+      </div>
+    </div>
+  </Page>
+);
 
 export default Home;

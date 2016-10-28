@@ -1,12 +1,11 @@
 import React from 'react';
 import { StyleSheet, css } from 'aphrodite';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import getMuiTheme from 'material-ui/styles/getMuiTheme';
 
 import Constants from '../constants';
 import Header from '../containers/Header';
 import Footer from './Footer';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import getMuiTheme from 'material-ui/styles/getMuiTheme';
-import TextField from 'material-ui/TextField';
 
 const muiTheme = getMuiTheme({
   palette: {
@@ -14,20 +13,6 @@ const muiTheme = getMuiTheme({
     primary2Color: Constants.darkPrimaryColor,
   },
 });
-
-const Page = ({ children }) => {
-  return (
-    <MuiThemeProvider muiTheme={muiTheme}>
-      <div className={css(styles.app)}>
-        <Header />
-        <div className={css(styles.content)}>
-          {children}
-        </div>
-        <Footer />
-      </div>
-    </MuiThemeProvider>
-  );
-};
 
 const styles = StyleSheet.create({
   app: {
@@ -43,5 +28,17 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
 });
+
+const Page = ({ children }) => (
+  <MuiThemeProvider muiTheme={muiTheme}>
+    <div className={css(styles.app)}>
+      <Header />
+      <div className={css(styles.content)}>
+        {children}
+      </div>
+      <Footer />
+    </div>
+  </MuiThemeProvider>
+);
 
 export default Page;

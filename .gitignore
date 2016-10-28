@@ -6,3 +6,4 @@ backend/static/main-*.js
 frontend/webpack-stats.json
 .vscode
 **/bundle.js
+**/npm-debug.log

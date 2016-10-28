@@ -9,7 +9,7 @@ export function signInRequest(username, password) {
         username: json.username,
       });
     }));
-  }
+  };
 }
 
 export function signOutRequest() {

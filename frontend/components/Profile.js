@@ -1,68 +1,15 @@
 import React from 'react';
 import { StyleSheet, css } from 'aphrodite';
-import FontIcon from 'material-ui/FontIcon';
-import { Link } from 'react-router';
 
-import Constants from '../constants';
-import Page from './Page';
-import TextField from 'material-ui/TextField';
-import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
-import {List, ListItem} from 'material-ui/List';
+import { List, ListItem } from 'material-ui/List';
 import Subheader from 'material-ui/Subheader';
 import Divider from 'material-ui/Divider';
-import FlatButton from 'material-ui/FlatButton';
 import GroupWork from 'material-ui/svg-icons/action/group-work';
 import ActionGrade from 'material-ui/svg-icons/action/grade';
 import Paper from 'material-ui/Paper';
 
-const ProblemHistoryList = ({ problems }) => {
-  console.log(problems);
-  return (
-      <List>
-        <Subheader>Game History</Subheader>
-        {problems.map(problem =>
-          <ListItem
-            primaryText={problem.title}
-            leftIcon={<ActionGrade />}
-          />
-        )}
-      </List>
-  );
-};
-
-const Profile = ({ username, problems = [{title:'title1'}] }) => {
-  return (
-    <Page>
-      <div className={css(styles.banner)}>
-        <img src="/static/image/portrait_sample.png" className={css(styles.portrait)} />
-        <h3>{username}</h3>
-        <Paper zDepth={3} className={css(styles.paper)}>
-          <List>
-           <Subheader>Ranking</Subheader>
-          <ListItem
-            primaryText="1"
-            leftIcon={<GroupWork />}
-            disabled={true}
-         />
-         </List>
-        <Divider />
-      <List>
-        <Subheader>Dave</Subheader>
-        <ListItem
-         primaryText="Awesome."
-         disabled={true}
-        />
-      </List>
-      </Paper>
-      </div>
-      <div className={css(styles.container)}>
-        <Paper zDepth={3} className={css(styles.paper)}>
-          <ProblemHistoryList problems={problems}/>
-        </Paper>
-      </div>
-    </Page>
-  );
-};
+import Constants from '../constants';
+import Page from './Page';
 
 const styles = StyleSheet.create({
   banner: {
@@ -99,8 +46,43 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
-    flexWrap: 'wrap', 
+    flexWrap: 'wrap',
   },
 });
+
+const ProblemHistoryList = ({ problems }) => {
+  const problemList = problems.map(problem => <ListItem primaryText={problem.title} leftIcon={<ActionGrade />} />);
+  return (
+    <List>
+      <Subheader>Game History</Subheader>
+      {problemList}
+    </List>
+  );
+};
+
+const Profile = ({ username, problems = [{ title: 'title1' }] }) => (
+  <Page>
+    <div className={css(styles.banner)}>
+      <img src="/static/image/portrait_sample.png" className={css(styles.portrait)} />
+      <h3>{username}</h3>
+      <Paper zDepth={3} className={css(styles.paper)}>
+        <List>
+          <Subheader>Ranking</Subheader>
+          <ListItem primaryText="1" leftIcon={<GroupWork />} disabled />
+        </List>
+        <Divider />
+        <List>
+          <Subheader>Dave</Subheader>
+          <ListItem primaryText="Awesome." disabled />
+        </List>
+      </Paper>
+    </div>
+    <div className={css(styles.container)}>
+      <Paper zDepth={3} className={css(styles.paper)}>
+        <ProblemHistoryList problems={problems} />
+      </Paper>
+    </div>
+  </Page>
+);
 
 export default Profile;

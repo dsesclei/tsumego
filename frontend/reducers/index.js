@@ -2,7 +2,7 @@ import { combineReducers } from 'redux';
 
 const initialState = {
   id: null,
-}
+};
 
 function user(state = initialState, action) {
   switch (action.type) {
@@ -10,11 +10,11 @@ function user(state = initialState, action) {
       if (action.success === true) {
         return { id: action.id, username: action.username };
       }
+      break;
     case 'SIGN_OUT':
       return initialState;
-    default:
-      return state;
   }
+  return state;
 }
 
 export default combineReducers({

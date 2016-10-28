@@ -1,5 +1,4 @@
 import { connect } from 'react-redux';
-import { signOutRequest } from '../actions';
 import Profile from '../components/Profile';
 
 const mapStateToProps = (state) => {
@@ -10,7 +9,6 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    //onTabChange: (slideIndex) => dispatch(changeProfileTab(slideIndex)),
   };
 };
 
