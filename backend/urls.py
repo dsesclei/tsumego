@@ -18,9 +18,11 @@ from django.contrib import admin
 from django.views.generic import TemplateView
 from . import settings
 from . import views
+from django.conf.urls import url, include
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
+    url(r'^accounts/', include('allauth.urls')),
     url(r'^$', TemplateView.as_view(template_name='index.html')),
     url(r'^random_color', views.random_color),
     url(r'^sign_in', views.sign_in),

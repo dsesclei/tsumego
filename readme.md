@@ -10,6 +10,8 @@ Install pip
 
 `pip install Django==1.10.2`
 
+`pip install django-allauth`
+    
 `python manage.py migrate`
 
 Install Node.js
