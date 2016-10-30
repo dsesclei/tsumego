@@ -38,11 +38,11 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sites',
-    'allauth',
-    'allauth.account',
     # 'allauth.socialaccount',
     'webpack_loader',
     'backend',
+    'allauth',
+    'allauth.account',
 ]
 
 SITE_ID = 1
@@ -130,6 +130,22 @@ AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
     'allauth.account.auth_backends.AuthenticationBackend',
 )
+
+ACCOUNT_EMAIL_REQUIRED=True
+ACCOUNT_USERNAME_REQUIRED = False
+ACCOUNT_UNIQUE_EMAIL = True
+ACCOUNT_AUTHENTICATION_METHOD = 'email'
+ACCOUNT_EMAIL_CONFIRMATION_AUTHENTICATED_REDIRECT_URL=None
+ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS=3
+ACCOUNT_EMAIL_CONFIRMATION_HMAC=True
+ACCOUNT_EMAIL_VERIFICATION='optional'
+ACCOUNT_LOGIN_ATTEMPTS_LIMIT=5
+ACCOUNT_LOGIN_ATTEMPTS_TIMEOUT=300
+ACCOUNT_LOGOUT_REDIRECT_URL = '/'
+ACCOUNT_SIGNUP_PASSWORD_VERIFICATION = True
+ACCOUNT_CONFIRM_EMAIL_ON_GET = False
+ACCOUNT_LOGIN_ON_EMAIL_CONFIRMATION = False
+ACCOUNT_LOGIN_ON_PASSWORD_RESET = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.10/howto/static-files/

@@ -42,3 +42,7 @@ While in the `frontend` directory, run `npm start`.
 
 `localhost:8000`
 
+## SuperUser
+
+username: `cs506`
+password: `cs506cs506`

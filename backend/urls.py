@@ -20,6 +20,8 @@ from . import settings
 from . import views
 from django.conf.urls import url, include
 
+admin.autodiscover()
+
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^accounts/', include('allauth.urls')),
