@@ -19,43 +19,36 @@ class UserProfile(models.Model):
     ranking = models.PositiveIntegerField(default=0, blank=True)
     # completedGame
 
-class Game(models.Model):
-    problem = models.CharField(max_length=400, blank=False)
+class Problem(models.Model):
+    board = models.CharField(max_length=400, blank=False)
     start_row = models.PositiveSmallIntegerField(blank=True, default=0)
     end_row = models.PositiveSmallIntegerField(blank=False)
     start_col = models.PositiveSmallIntegerField(blank=True, default=0)
     end_col = models.PositiveSmallIntegerField(blank=False)
     rating = models.DecimalField(max_digits=12, decimal_places=4, blank=True, default=0)
-    solution = models.CharField(max_length=50000, blank=False)
-    pub_date = models.DateTimeField(auto_now_add=True, blank=True)
+    responses = models.CharField(max_length=50000, blank=False)
+    timestamp = models.DateTimeField(auto_now_add=True, blank=True)
 
 class Comment(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     content = models.CharField(max_length=5000)
-    pub_date = models.DateTimeField(auto_now_add=True, blank=True)
-    game = models.ForeignKey(Game, on_delete=models.CASCADE, null=True)
+    timestamp = models.DateTimeField(auto_now_add=True, blank=True)
+    problem = models.ForeignKey(Problem, on_delete=models.CASCADE, null=True)
     profile = models.ForeignKey(UserProfile, on_delete=models.CASCADE, null=True)
+    score = models.PositiveIntegerField(blank=True, default=0)
     
 class Vote(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     comment = models.ForeignKey(Comment, on_delete=models.CASCADE)
-    VOTE_VALUE_CHOICE = (
-        ('0', 'Up Vote'),
-        ('1', 'Down Vote'),
-    )
-    value = models.CharField(max_length=1, choices=VOTE_VALUE_CHOICE, default='0')
-    pub_date = models.DateTimeField(auto_now_add=True, blank=True)
+    value = models.BooleanField(default=False)
+    timestamp = models.DateTimeField(auto_now_add=True, blank=True)
 
-class GameHistory(models.Model):
+class Attempt(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    game = models.ForeignKey(Game, on_delete=models.CASCADE, null=True)
-    GAME_RESULT_CHOICE = (
-        ('0', 'Loss'),
-        ('1', 'Win'),
-    )
-    result = models.CharField(max_length=1, choices=GAME_RESULT_CHOICE, default='0')
+    problem = models.ForeignKey(Problem, on_delete=models.CASCADE, null=True)
+    successful = models.BooleanField(default=False)
     user_rating = models.DecimalField(max_digits=12, decimal_places=4, blank=True, default=0) # at that time
     problem_rating = models.DecimalField(max_digits=12, decimal_places=4, blank=True, default=0) # at that time
     duration = models.DurationField(default=0)
-    pub_date = models.DateTimeField(auto_now_add=True, blank=True)
+    timestamp = models.DateTimeField(auto_now_add=True, blank=True)
 
