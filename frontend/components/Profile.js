@@ -54,7 +54,7 @@ const ProblemHistoryList = ({ problems }) => {
   const problemList = problems.map(problem => <ListItem primaryText={problem.title} leftIcon={<ActionGrade />} />);
   return (
     <List>
-      <Subheader>Game History</Subheader>
+      <Subheader>Problem History</Subheader>
       {problemList}
     </List>
   );

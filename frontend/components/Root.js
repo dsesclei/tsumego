@@ -4,7 +4,7 @@ import { Router, Route, hashHistory } from 'react-router';
 import Home from './Home';
 import SignIn from '../containers/SignIn';
 import Profile from '../containers/Profile';
-import Game from './Game';
+import Problem from './Problem';
 
 const Root = () => (
   // Workaround for bug in hot loader and Router: https://github.com/ReactTraining/react-router/issues/2704#issuecomment-253716411
@@ -12,7 +12,7 @@ const Root = () => (
     <Route path="/" component={Home} />
     <Route path="/sign_in" component={SignIn} />
     <Route path="/profile" component={Profile} />
-    <Route path="/game" component={Game} />
+    <Route path="/Problem" component={Problem} />
   </Router>
 );
 

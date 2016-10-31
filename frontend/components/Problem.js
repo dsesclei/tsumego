@@ -13,7 +13,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const Game = () => (
+const Problem = () => (
   <Page>
     <div className={css(styles.gamePage)}>
       <Board />
@@ -21,4 +21,4 @@ const Game = () => (
   </Page>
 );
 
-export default Game;
+export default Problem;
