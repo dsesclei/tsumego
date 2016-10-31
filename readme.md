@@ -4,7 +4,7 @@
 * Clone the repository
 * Install Python 2.7
 * Install pip
-* pip install -r requirements.txt
+* `pip install -r requirements.txt`
 * `python manage.py migrate`
 * Install Node.js
 * `cd frontend`
@@ -25,5 +25,6 @@ frontend directory. The app will then be live at `http://localhost:8000`.
 
 ## SuperUser
 
-username: `cs506`
-password: `cs506cs506`
+Username: `cs506`
+
+Password: `cs506cs506`
