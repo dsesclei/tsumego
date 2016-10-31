@@ -15,7 +15,13 @@ import Root from './components/Root';
 injectTapEventPlugin();
 
 const logger = createLogger();
-const store = createStore(reducers, applyMiddleware(thunk, logger));
+
+const persistedState = localStorage.getItem('reduxState') ? JSON.parse(localStorage.getItem('reduxState')) : {}
+const store = createStore(reducers, persistedState, applyMiddleware(thunk, logger));
+
+store.subscribe(()=>{
+  localStorage.setItem('reduxState', JSON.stringify(store.getState()))
+})
 
 ReactDOM.render((
   <AppContainer>
