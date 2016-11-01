@@ -1,6 +1,24 @@
 import random
 import json
 from django.http import JsonResponse
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
+from rest_framework.views import APIView
+
+class ExampleView(APIView):
+    permission_classes = (IsAuthenticated,)
+
+    def get(self, request, format=None):
+        content = {
+            'status': 'request was permitted'
+        }
+        return JsonResponse(content)
+
+    def post(self, request, format=None):
+        content = {
+            'status': 'request was permitted'
+        }
+        return JsonResponse(content)
 
 def random_color(request):
     colors = ['blue', 'red', 'green', 'orange', 'gray', 'purple']
@@ -13,3 +31,8 @@ def sign_in(request):
 
 def sign_out(request):
     return JsonResponse({})
+
+def secrect(request):
+    if request.user.is_authenticated():
+        return JsonResponse({ 'authenticated': 'yes' })
+    return JsonResponse({ 'authenticated': 'no' })

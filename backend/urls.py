@@ -19,6 +19,7 @@ from django.views.generic import TemplateView
 from . import settings
 from . import views
 from django.conf.urls import url, include
+from rest_framework_jwt.views import obtain_jwt_token
 
 admin.autodiscover()
 
@@ -29,4 +30,6 @@ urlpatterns = [
     url(r'^random_color', views.random_color),
     url(r'^sign_in', views.sign_in),
     url(r'^sign_out', views.sign_out),
+    url(r'^secrect', views.ExampleView.as_view()),
+    url(r'^api-token-auth/', obtain_jwt_token),
 ]
