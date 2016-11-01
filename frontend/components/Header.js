@@ -68,7 +68,7 @@ const Header = ({ isSignedIn, username, onSignOut }) => {
   );
 
   const Logo = (
-    <Link to={isSignedIn ? '/game' : '/'} className={css(styles.inlineLink)}>
+    <Link to={isSignedIn ? '/problem' : '/'} className={css(styles.inlineLink)}>
       <img src={'/static/image/tsumego_logo.png'} className={css(styles.logo)} />
       <p> TSUMEGO TSAR </p>
     </Link>
