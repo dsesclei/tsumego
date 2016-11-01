@@ -4,7 +4,7 @@ import { StyleSheet, css } from 'aphrodite';
 const styles = StyleSheet.create({
   board: {
     display: 'block',
-    background: '#fcd700',
+    background: "url('/static/image/board.png')",
   },
   container: {
     width: '256px',
@@ -22,68 +22,48 @@ const styles = StyleSheet.create({
   },
 });
 
-function drawBorder(rowNum, colNum, cellSize, padding) {
-  const style = {
-    stroke: '#000',
-    fill: 'none',
-    strokeWidth: '3px',
-  };
-  const roundedPadding = padding.toFixed(2);
-  const rowLength = (rowNum * cellSize).toFixed(2);
-  const colLength = (colNum * cellSize).toFixed(2);
-  const leftTopX = roundedPadding;
-  const leftTopY = roundedPadding;
-  return (
-    <rect
-      x={leftTopX}
-      y={leftTopY}
-      width={colLength}
-      height={rowLength}
-      style={style}
-    />
-  );
-}
-
 function drawLines(rowNum, colNum, cellSize, padding) {
-  const rowLength = (rowNum * cellSize);
-  const colLength = (colNum * cellSize);
-  const leftTopX = padding;
-  const leftTopY = padding;
-  const rightBottomX = leftTopX + colLength;
-  const rightBottomY = leftTopY + rowLength;
-  const lineStrings = [];
-  // horizontal lines
-  for (let i = 1; i < rowNum; i++) {
-    const startX = leftTopX.toFixed(2);
-    const startY = (leftTopY + (i * cellSize)).toFixed(2);
-    const endX = rightBottomX.toFixed(2);
-    const endY = startY;
-    lineStrings.push(`M${startX},${startY}L${endX},${endY}`);
-  }
-  // vertical lines
-  for (let i = 1; i < colNum; i++) {
-    const startX = (leftTopX + (i * cellSize)).toFixed(2);
-    const startY = leftTopY.toFixed(2);
-    const endX = startX;
-    const endY = rightBottomY;
-    lineStrings.push(`M${startX},${startY}L${endX},${endY}`);
+  const lines = [];
+
+  // Horizontal lines
+  for (let i = 0; i < rowNum; i++) {
+    const y = padding + (i * cellSize);
+    lines.push(
+      <line
+        key={`row:${i}`}
+        x1={padding}
+        x2={padding + ((colNum - 1) * cellSize)}
+        y1={y}
+        y2={y}
+        stroke="black"
+        strokeWidth="1"
+      />
+    );
   }
 
-  return lineStrings.map(lineString => (
-    <path
-      fill="none"
-      stroke="black"
-      d={lineString}
-      strokeWidth="1"
-      key={lineString}
-    />
-  ));
+  // Vertical lines
+  for (let i = 0; i < colNum; i++) {
+    const x = padding + (i * cellSize);
+    lines.push(
+      <line
+        key={`col:${i}`}
+        x1={x}
+        x2={x}
+        y1={padding}
+        y2={padding + ((rowNum - 1) * cellSize)}
+        stroke="black"
+        strokeWidth="1"
+      />
+    );
+  }
+
+  return lines;
 }
 
 function drawStones(stones, cellSize, padding, playerToMove, onClick) {
   const stoneEls = [];
-  for (let row = 0; row < 18; row++) {
-    for (let col = 0; col < 18; col++) {
+  for (let row = 0; row < 19; row++) {
+    for (let col = 0; col < 19; col++) {
       const value = stones[row][col];
       const attrs = {};
       switch (value) {
@@ -101,14 +81,13 @@ function drawStones(stones, cellSize, padding, playerToMove, onClick) {
       }
 
       stoneEls.push(
-        <g key={`${row},${col}}`}>
-          <circle
-            cx={padding + (cellSize * row)}
-            cy={padding + (cellSize * col)}
-            r={(cellSize / 2) * 0.9}
-            {...attrs}
-          />
-        </g>
+        <circle
+          key={`${row},${col}`}
+          cx={padding + (cellSize * row)}
+          cy={padding + (cellSize * col)}
+          r={(cellSize / 2) * 0.9}
+          {...attrs}
+        />
       );
     }
   }
@@ -116,20 +95,38 @@ function drawStones(stones, cellSize, padding, playerToMove, onClick) {
   return stoneEls;
 }
 
+// Only written for 19x19 size
+function drawStarPoints(cellSize, padding) {
+  const points = [
+    [3, 3],
+    [3, 9],
+    [3, 15],
+    [9, 3],
+    [9, 9],
+    [9, 15],
+    [15, 3],
+    [15, 9],
+    [15, 15],
+  ];
+
+  return points.map(point => (
+    <circle
+      cx={padding + (cellSize * point[1])}
+      cy={padding + (cellSize * point[0])}
+      r={3}
+    />
+  ));
+}
+
 const Board = ({ stones, playerToMove, onClick }) => {
   const cellSize = 25;
   const padding = 30;
 
-  const width = 535;
-  const height = 535;
+  const width = 505;
+  const height = 505;
   return (
     <svg width={width} height={height} className={css(styles.board)}>
       <defs>
-        <filter id="f3" x="0" y="0" width="200%" height="200%">
-          <feOffset result="offOut" in="SourceAlpha" dx="20" dy="20" />
-          <feGaussianBlur result="blurOut" in="offOut" stdDeviation="10" />
-          <feBlend in="SourceGraphic" in2="blurOut" mode="normal" />
-        </filter>
         <pattern id="white" width={cellSize} height={cellSize}>
           <image
             xlinkHref="/static/image/white.png"
@@ -147,8 +144,8 @@ const Board = ({ stones, playerToMove, onClick }) => {
           />
         </pattern>
       </defs>
-      {drawBorder(19, 19, cellSize, padding)}
       {drawLines(19, 19, cellSize, padding)}
+      {drawStarPoints(cellSize, padding)}
       {drawStones(stones, cellSize, padding, playerToMove, onClick)}
     </svg>
   );
