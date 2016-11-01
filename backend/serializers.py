@@ -1,7 +1,6 @@
 # http://www.django-rest-framework.org/tutorial/1-serialization/#setting-up-a-new-environment
 
 from rest_framework import serializers
-from django.contrib.auth.models import User
 from . import models
 
 class CommentSerializer(serializers.ModelSerializer):

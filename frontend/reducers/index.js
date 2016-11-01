@@ -40,8 +40,8 @@ const initialState = {
 function user(state = initialState, action) {
   switch (action.type) {
     case 'SIGN_IN':
-      if (action.success === true) {
-        return { id: action.id, username: action.username, id_token: action.id_token };
+      if (action.id_token != null ) {
+        return { username: action.username, id_token: action.id_token, email: action.email };
       }
       break;
     case 'SIGN_OUT':
