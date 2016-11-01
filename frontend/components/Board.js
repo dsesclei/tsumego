@@ -111,6 +111,7 @@ function drawStarPoints(cellSize, padding) {
 
   return points.map(point => (
     <circle
+      key={point.toString()}
       cx={padding + (cellSize * point[1])}
       cy={padding + (cellSize * point[0])}
       r={3}
@@ -122,8 +123,8 @@ const Board = ({ stones, playerToMove, onClick }) => {
   const cellSize = 25;
   const padding = 30;
 
-  const width = 505;
-  const height = 505;
+  const width = padding + (cellSize * 19);
+  const height = padding + (cellSize * 19);
   return (
     <svg width={width} height={height} className={css(styles.board)}>
       <defs>
