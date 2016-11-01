@@ -14,8 +14,7 @@
 
 ### Updating
 
-`/git pull && pip install -r requirements.txt && cd frontend && npm install && cd ..`
-`python manage.py makemigrations && python manage.py migrate`
+`/git pull && pip install -r requirements.txt && cd frontend && npm install && cd .. && python manage.py makemigrations && python manage.py migrate`
 
 ### Running the Server
 
