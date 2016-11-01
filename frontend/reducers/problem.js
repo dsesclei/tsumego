@@ -1,3 +1,5 @@
+import { applyMove } from '../logic/go';
+
 const initialStones = [];
 for (let i = 0; i < 19; i++) {
   const row = [];
@@ -9,13 +11,26 @@ for (let i = 0; i < 19; i++) {
 
 const initialState = {
   stones: initialStones,
+  responses: {
+    '0,0': {
+      '1,1': {
+        '3,2': { success: true },
+      },
+    },
+    '0,1': {
+      '0,0': {
+        '1,2': {},
+      },
+    },
+  },
   moves: [],
   playerToMove: 'black',
 };
 
 function placeStone(state, action) {
   const stones = state.stones.map(row => row.slice());
-  stones[action.row][action.col] = { black: 1, white: -1 }[state.playerToMove];
+  const playerNumber = { black: 1, white: -1 }[state.playerToMove];
+  applyMove(stones, [action.row, action.col], playerNumber);
 
   const moves = state.moves.slice();
   moves.push({ row: action.row, col: action.col });
