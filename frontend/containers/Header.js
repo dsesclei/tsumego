@@ -4,7 +4,7 @@ import Header from '../components/Header';
 
 const mapStateToProps = (state) => {
   return {
-    isSignedIn: state.user.id != null,
+    isSignedIn: state.user.id_token != null,
     username: state.user.username,
   };
 };

@@ -14,7 +14,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const SignIn = ({ onSubmit }) => {
+const SignIn = ({ onSubmit, secrect }) => {
   let usernameEl;
   let passwordEl;
   return (
@@ -32,6 +32,7 @@ const SignIn = ({ onSubmit }) => {
             <RaisedButton primary type="submit" label="Submit" />
           </div>
         </form>
+        <button onClick={() => {secrect()}}>secrect</button>
       </div>
     </Page>
   );
