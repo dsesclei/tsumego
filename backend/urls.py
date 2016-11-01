@@ -31,5 +31,5 @@ urlpatterns = [
     url(r'^secrect', views.ExampleView.as_view()),
     url(r'^api-token-auth/', obtain_jwt_token),
     url(r'^problems/(?P<pk>[0-9]+)$', views.ProblemDetail.as_view()),
-    url(r'^problems$', views.ProblemList.as_view()),
+    url(r'^problems$', views.ProblemList.as_view    ()),
 ]

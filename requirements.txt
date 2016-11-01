@@ -1,7 +1,7 @@
 Django==1.10.2
 django-webpack-loader==0.3.3
-django-allauth
-djangorestframework
-markdown
-django-filter
-djangorestframework-jwt
+django-allauth==0.28.0
+djangorestframework==3.5.1
+markdown==2.6.7
+django-filter==0.15.3
+djangorestframework-jwt==1.8.0
