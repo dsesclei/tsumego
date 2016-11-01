@@ -28,20 +28,21 @@ class Problem(models.Model):
     rating = models.DecimalField(max_digits=12, decimal_places=4, blank=True, default=0)
     responses = models.CharField(max_length=50000, blank=False)
     timestamp = models.DateTimeField(auto_now_add=True, blank=True)
+    category = models.CharField(max_length=100, blank=False, default='')
 
 class Comment(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     content = models.CharField(max_length=5000)
-    timestamp = models.DateTimeField(auto_now_add=True, blank=True)
-    problem = models.ForeignKey(Problem, on_delete=models.CASCADE, null=True)
-    profile = models.ForeignKey(UserProfile, on_delete=models.CASCADE, null=True)
-    score = models.PositiveIntegerField(blank=True, default=0)
+    pub_date = models.DateTimeField(auto_now_add=True, blank=True)
+    problem = models.ForeignKey(Problem, on_delete=models.CASCADE, null=True, blank=True)
+    profile = models.ForeignKey(UserProfile, on_delete=models.CASCADE, null=True, blank=True)
+    score = models.IntegerField(blank=True, default=0)
     
 class Vote(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     comment = models.ForeignKey(Comment, on_delete=models.CASCADE)
     value = models.BooleanField(default=False)
-    timestamp = models.DateTimeField(auto_now_add=True, blank=True)
+    pub_date = models.DateTimeField(auto_now_add=True, blank=True)
 
 class Attempt(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
