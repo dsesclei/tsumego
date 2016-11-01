@@ -4,7 +4,7 @@ import { Router, Route, hashHistory } from 'react-router';
 import Home from './Home';
 import SignIn from '../containers/SignIn';
 import Profile from '../containers/Profile';
-import Problem from './Problem';
+import Problem from '../containers/Problem';
 
 const Root = () => (
   // Workaround for bug in hot loader and Router: https://github.com/ReactTraining/react-router/issues/2704#issuecomment-253716411

@@ -18,3 +18,7 @@ export function signOutRequest() {
     fetch('/sign_out');
   };
 }
+
+export function placeStone(row, col) {
+  return { type: 'PLACE_STONE', row, col };
+}

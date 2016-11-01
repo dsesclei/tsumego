@@ -13,10 +13,10 @@ const styles = StyleSheet.create({
   },
 });
 
-const Problem = () => (
+const Problem = ({ stones, playerToMove, onClick }) => (
   <Page>
     <div className={css(styles.gamePage)}>
-      <Board />
+      <Board stones={stones} playerToMove={playerToMove} onClick={onClick} />
     </div>
   </Page>
 );

@@ -1,44 +1,6 @@
 import React from 'react';
 import { StyleSheet, css } from 'aphrodite';
 
-function getRandomInt(min, max) {
-  min = Math.ceil(min);
-  max = Math.floor(max);
-  return Math.floor(Math.random() * (max - min)) + min;
-}
-
-function getStoneKey(x, y) {
-  return ((x + 1) * 100) + y;
-}
-
-function getBoardWidth(rowNum, cellSize, padding) {
-  return ((rowNum * cellSize) + (padding * 2)).toFixed(2);
-}
-
-function getBoardHeight(colNum, cellSize, padding) {
-  return ((colNum * cellSize) + (padding * 2)).toFixed(2);
-}
-
-function generateRandomStones(rowNum, colNum) {
-  const num = getRandomInt(1, ((rowNum * colNum) * getRandomInt(1, 10)) / 10.0);
-  const stones = [];
-  const cache = {};
-  for (let i = 0; i < num; i++) {
-    const cx = getRandomInt(0, colNum + 1);
-    const cy = getRandomInt(0, rowNum + 1);
-    const key = `${cx},${cy}`;
-    if (!(key in cache)) {
-      stones.push({
-        x: cx,
-        y: cy,
-        color: getRandomInt(0, 2) === 1 ? 'black' : 'white',
-      });
-      cache[key] = '1';
-    }
-  }
-  return stones;
-}
-
 const styles = StyleSheet.create({
   board: {
     display: 'block',
@@ -51,16 +13,16 @@ const styles = StyleSheet.create({
     marginTop: '15px',
   },
   hiddenStone: {
-    opacity: '0',
+    opacity: 0,
     ':hover': {
-      opacity: '0.6',
+      opacity: 0.6,
       transition: 'opacity .15s ease-in-out .0s',
       cursor: 'pointer',
     },
   },
 });
 
-const Border = ({ rowNum, colNum, cellSize, padding }) => {
+function drawBorder(rowNum, colNum, cellSize, padding) {
   const style = {
     stroke: '#000',
     fill: 'none',
@@ -80,7 +42,7 @@ const Border = ({ rowNum, colNum, cellSize, padding }) => {
       style={style}
     />
   );
-};
+}
 
 function drawLines(rowNum, colNum, cellSize, padding) {
   const rowLength = (rowNum * cellSize);
@@ -118,75 +80,76 @@ function drawLines(rowNum, colNum, cellSize, padding) {
   ));
 }
 
-function sayClick(row, col) {
-  console.log(`Click at ${row},${col}`);
-}
-
-function drawStones(stones, rowNum, colNum, cellSize, padding, playerColor) {
-  const leftTopX = padding;
-  const leftTopY = padding;
-  const points = [];
-  const radius = ((cellSize / 2) * 0.9).toFixed(2);
-  const stoneCache = {};
-  for (const stone of stones) {
-    const key = getStoneKey(stone.x, stone.y);
-    stoneCache[key] = stone;
-  }
-
-  for (let i = 0; i <= colNum; i++) {
-    for (let j = 0; j <= rowNum; j++) {
-      const key = getStoneKey(i, j);
-      let color;
-      if (key in stoneCache) {
-        color = stoneCache[key].color;
-      } else if (playerColor === 'white') {
-        color = 'white';
-      } else {
-        color = 'black';
+function drawStones(stones, cellSize, padding, playerToMove, onClick) {
+  const stoneEls = [];
+  for (let row = 0; row < 18; row++) {
+    for (let col = 0; col < 18; col++) {
+      const value = stones[row][col];
+      const attrs = {};
+      switch (value) {
+        case 0:
+          attrs.className = css(styles.hiddenStone);
+          attrs.onClick = () => onClick(row, col);
+          attrs.fill = `url(#${playerToMove})`;
+          break;
+        case 1:
+          attrs.fill = 'url(#black)';
+          break;
+        case -1:
+          attrs.fill = 'url(#white)';
+          break;
       }
 
-      points.push({
-        color,
-        x: j,
-        y: i,
-        cx: (leftTopX + (i * cellSize)).toFixed(2),
-        cy: (leftTopY + (j * cellSize)).toFixed(2),
-        hidden: !(key in stoneCache),
-      });
+      stoneEls.push(
+        <g key={`${row},${col}}`}>
+          <circle
+            cx={padding + (cellSize * row)}
+            cy={padding + (cellSize * col)}
+            r={(cellSize / 2) * 0.9}
+            {...attrs}
+          />
+        </g>
+      );
     }
   }
 
-  return points.map(point => (
-    <circle
-      cx={point.cx}
-      cy={point.cy}
-      r={radius}
-      stroke="black"
-      strokeWidth="1px"
-      fill={point.color}
-      onClick={() => point.hidden && sayClick(point.x, point.y)}
-      className={css(point.hidden && styles.hiddenStone)}
-      key={getStoneKey(point.x, point.y)}
-    />
-  ));
+  return stoneEls;
 }
 
-const Board = ({ stones = [], rowStart = 0, rowEnd = 18, colStart = 0, colEnd = 18 }) => {
+const Board = ({ stones, playerToMove, onClick }) => {
   const cellSize = 25;
   const padding = 30;
-  rowEnd = getRandomInt(0, 19);// FOR FUN
-  colEnd = getRandomInt(0, 19);// FOR FUN
-  const playerColor = rowEnd % 2 === 0 ? 'black' : 'white'; // FOR FUN
-  const rowNum = Math.abs(rowEnd - rowStart) + 1;
-  const colNum = Math.abs(colEnd - colStart) + 1;
-  stones = (stones.length && stones) || generateRandomStones(rowNum, colNum); // FOR FUN
-  const boardWidth = getBoardWidth(rowNum, cellSize, padding);
-  const boardHeight = getBoardHeight(colNum, cellSize, padding);
+
+  const width = 535;
+  const height = 535;
   return (
-    <svg height={boardWidth} width={boardHeight} className={css(styles.board)}>
-      <Border rowNum={rowNum} colNum={colNum} cellSize={cellSize} padding={padding} />
-      {drawLines(rowNum, colNum, cellSize, padding)}
-      {drawStones(stones, rowNum, colNum, cellSize, padding, playerColor)}
+    <svg width={width} height={height} className={css(styles.board)}>
+      <defs>
+        <filter id="f3" x="0" y="0" width="200%" height="200%">
+          <feOffset result="offOut" in="SourceAlpha" dx="20" dy="20" />
+          <feGaussianBlur result="blurOut" in="offOut" stdDeviation="10" />
+          <feBlend in="SourceGraphic" in2="blurOut" mode="normal" />
+        </filter>
+        <pattern id="white" width={cellSize} height={cellSize}>
+          <image
+            xlinkHref="/static/image/white.png"
+            width={cellSize}
+            height={cellSize}
+            patternUnits="userSpaceOnUse"
+          />
+        </pattern>
+        <pattern id="black" width={cellSize} height={cellSize}>
+          <image
+            xlinkHref="/static/image/black.png"
+            width={cellSize}
+            height={cellSize}
+            patternUnits="userSpaceOnUse"
+          />
+        </pattern>
+      </defs>
+      {drawBorder(19, 19, cellSize, padding)}
+      {drawLines(19, 19, cellSize, padding)}
+      {drawStones(stones, cellSize, padding, playerToMove, onClick)}
     </svg>
   );
 };
