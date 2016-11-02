@@ -1,15 +1,16 @@
 import { connect } from 'react-redux';
-import { signInRequest, secrectRequest } from '../actions';
+import { signInRequest } from '../actions';
 import SignIn from '../components/SignIn';
 
 const mapStateToProps = (state) => {
-  return {};
+  return {
+        errorMessages: state.error,
+  };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
     onSubmit: (username, password) => dispatch(signInRequest(username, password)),
-    secrect: () => dispatch(secrectRequest()),
   };
 };
 

@@ -2,17 +2,20 @@ export function signInRequest(username, password) {
   return dispatch => {
     dispatch({ type: 'SIGN_IN' });
     fetch('/api-token-auth/', { method: 'POST', headers: { 'Content-Type':'application/json' }, body: JSON.stringify({ username, password }) }).then(response => response.json().then(json => {
-       /* For Iteration one */
        if (!json.token) {
-         alert('username: 1, password: 1')
+        dispatch({
+          type: 'SIGN_IN_FAILURE',
+          message: json,
+        });  
        }
-       /* END */ 
-       dispatch({
-        type: 'SIGN_IN',
-        id_token: json.token ? json.token : null,
-        username: json.user ? json.user.username  : null,
-        email: json.token ? json.user.email : null,
-      }); 
+       else {
+        dispatch({
+          type: 'SIGN_IN_SUCCESS',
+          id_token: json.token || '',
+          username: json.user ? json.user.username  : '',
+          email: json.user ? json.user.email : '',
+       }); 
+       }
     }));
   };
 }
@@ -21,17 +24,20 @@ export function registerRequest(username, password, email) {
   return dispatch => {
     dispatch({ type: 'REGISTER' });
     fetch('/register', { method: 'POST', headers: { 'Content-Type':'application/json' }, body: JSON.stringify({ username, password, email }) }).then(response => response.json().then(json => {
-       /* For Iteration one */
        if (!json.token) {
-         alert(JSON.stringify(json))
+        dispatch({
+          type: 'REGISTER_FAILURE',
+          message: json,
+        });          
        }
-       /* END */ 
-       dispatch({
-        type: 'REGISTER',
-        id_token: json.token ? json.token : null,
-        username: json.username ? json.username  : null,
-        email: json.token ? json.email : null,
-      }); 
+       else {
+        dispatch({
+          type: 'REGISTER_SUCCESS',
+          id_token: json.token || null,
+          username: json.username || '',
+          email: json.email || '',
+        }); 
+       }
     }));
   };
 }

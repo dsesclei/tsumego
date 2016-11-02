@@ -22,9 +22,9 @@ const styles = StyleSheet.create({
   }
 });
 
-const SignIn = ({ onSubmit, secrect }) => {
-  let usernameEl;
-  let passwordEl;
+const SignIn = ({ onSubmit, errorMessages }) => {
+  errorMessages = errorMessages || {};
+  let usernameEl, passwordEl, emailEl;
   return (
     <Page>
       <div className={css(styles.container)}>
@@ -32,16 +32,15 @@ const SignIn = ({ onSubmit, secrect }) => {
         <h3>Sign in</h3>
         <form onSubmit={e => { e.preventDefault(); onSubmit(usernameEl.getInputNode().value, passwordEl.getInputNode().value); }}>
           <div>
-            <TextField name="username" hintText="Username" floatingLabelText="Username" ref={r => usernameEl = r} />
+            <TextField name="username" hintText="Username" floatingLabelText="Username" errorText={errorMessages.username} ref={r => usernameEl = r} />
           </div>
           <div>
-            <TextField name="password" hintText="Password" floatingLabelText="Password" type="password" ref={r => passwordEl = r} />
+            <TextField name="password" hintText="Password" floatingLabelText="Password" type="password" errorText={errorMessages.password || errorMessages.non_field_errors} ref={r => passwordEl = r} />
           </div>
           <div className={css(styles.submit)}>
             <RaisedButton primary type="submit" label="Submit" />
           </div>
         </form>
-        <button onClick={() => {secrect()}}>secrect</button>
       </Paper>
       </div>
     </Page>

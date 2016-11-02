@@ -3,7 +3,9 @@ import { registerRequest } from '../actions';
 import Register from '../components/Register';
 
 const mapStateToProps = (state) => {
-  return {};
+  return {
+    errorMessages: state.error,
+  };
 };
 
 const mapDispatchToProps = (dispatch) => {
