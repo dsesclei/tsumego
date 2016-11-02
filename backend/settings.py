@@ -171,7 +171,7 @@ WEBPACK_LOADER = {
 }
 
 
-# JWT
+# JWT 
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': (
         'rest_framework.permissions.IsAuthenticated',
@@ -183,10 +183,10 @@ REST_FRAMEWORK = {
     ),
 }
 
-JWT_AUTH = {
+JWT_AUTH = {    
     'JWT_RESPONSE_PAYLOAD_HANDLER':
     'backend.utils.jwt_response_payload_handler',
     'JWT_EXPIRATION_DELTA': datetime.timedelta(seconds=30000),
     'JWT_ALLOW_REFRESH': True,
-    'JWT_REFRESH_EXPIRATION_DELTA': datetime.timedelta(days=7),
+    'JWT_REFRESH_EXPIRATION_DELTA': datetime.timedelta(days=7),    
 }
