@@ -17,6 +17,25 @@ export function signInRequest(username, password) {
   };
 }
 
+export function registerRequest(username, password, email) {
+  return dispatch => {
+    dispatch({ type: 'REGISTER' });
+    fetch('/register', { method: 'POST', headers: { 'Content-Type':'application/json' }, body: JSON.stringify({ username, password, email }) }).then(response => response.json().then(json => {
+       /* For Iteration one */
+       if (!json.token) {
+         alert(JSON.stringify(json))
+       }
+       /* END */ 
+       dispatch({
+        type: 'REGISTER',
+        id_token: json.token ? json.token : null,
+        username: json.username ? json.username  : null,
+        email: json.token ? json.email : null,
+      }); 
+    }));
+  };
+}
+
 export function secrectRequest() {
   return dispatch => {
     const persistedState = localStorage.getItem('reduxState') ? JSON.parse(localStorage.getItem('reduxState')) : {}    

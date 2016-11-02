@@ -22,17 +22,19 @@ const styles = StyleSheet.create({
   }
 });
 
-const SignIn = ({ onSubmit, secrect }) => {
-  let usernameEl;
-  let passwordEl;
+const Register = ({ onSubmit }) => {
+  let usernameEl, passwordEl, emailEl;
   return (
     <Page>
       <div className={css(styles.container)}>
       <Paper className={css(styles.paper)} zDepth={3} >
-        <h3>Sign in</h3>
-        <form onSubmit={e => { e.preventDefault(); onSubmit(usernameEl.getInputNode().value, passwordEl.getInputNode().value); }}>
+        <h3>Register</h3>
+        <form onSubmit={e => { e.preventDefault(); onSubmit(usernameEl.getInputNode().value, passwordEl.getInputNode().value, emailEl.getInputNode().value); }}>
           <div>
             <TextField name="username" hintText="Username" floatingLabelText="Username" ref={r => usernameEl = r} />
+          </div>
+          <div>
+            <TextField name="email" hintText="Email" floatingLabelText="Email Address" ref={r => emailEl = r} />
           </div>
           <div>
             <TextField name="password" hintText="Password" floatingLabelText="Password" type="password" ref={r => passwordEl = r} />
@@ -41,11 +43,10 @@ const SignIn = ({ onSubmit, secrect }) => {
             <RaisedButton primary type="submit" label="Submit" />
           </div>
         </form>
-        <button onClick={() => {secrect()}}>secrect</button>
       </Paper>
       </div>
     </Page>
   );
 };
 
-export default SignIn;
+export default Register;
