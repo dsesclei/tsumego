@@ -53,30 +53,32 @@ function countLiberties(stones, point, visitedPoints = null) {
 }
 
 // Checks if a play at move by player would capture any stones
-function isCapturingMove(points, move, player) {
+function isCapturingMove(stones, move, player) {
   return getOrthogonalNeighbors(move)
-    .filter(neighbor => getValue(points, neighbor) === player * -1)
-    .some(neighbor => countLiberties(points, neighbor) === 0);
+    .filter(neighbor => getValue(stones, neighbor) === player * -1)
+    .some(neighbor => countLiberties(stones, neighbor) === 0);
 }
 
-function isLegalMove(points, move, playerToMove) {
+function isLegalMove(stones, move, playerToMove) {
   if (!isValidPoint(move)) {
     throw new Error('Invalid point');
   }
 
-  if (getValue(points, move) !== 0) {
+  stones = stones.map(row => row.slice());
+
+  if (getValue(stones, move) !== 0) {
     return false;
   }
 
   // Are there enough liberties?
-  setValue(points, move, playerToMove);
-  const liberties = countLiberties(points, move);
+  setValue(stones, move, playerToMove);
+  const liberties = countLiberties(stones, move);
   if (liberties > 0) {
     return true;
   }
 
   // Is it capturing anything?
-  if (isCapturingMove(points, move, playerToMove)) {
+  if (isCapturingMove(stones, move, playerToMove)) {
     return true;
   }
 
@@ -104,17 +106,17 @@ function removeGroup(stones, point) {
 }
 
 
-function applyMove(points, move, playerToMove) {
-  if (isLegalMove(points, move, playerToMove)) {
-    setValue(points, move, playerToMove);
+function applyMove(stones, move, playerToMove) {
+  if (isLegalMove(stones, move, playerToMove)) {
+    setValue(stones, move, playerToMove);
 
-    points = getOrthogonalNeighbors(move)
-      .filter(neighbor => getValue(points, neighbor) === playerToMove * -1)
-      .filter(neighbor => countLiberties(points, neighbor) === 0)
-      .reduce((newPoints, neighbor) => removeGroup(newPoints, neighbor), points);
+    stones = getOrthogonalNeighbors(move)
+      .filter(neighbor => getValue(stones, neighbor) === playerToMove * -1)
+      .filter(neighbor => countLiberties(stones, neighbor) === 0)
+      .reduce((newStones, neighbor) => removeGroup(newStones, neighbor), stones);
   }
 
-  return points;
+  return stones;
 }
 
 export { isLegalMove, applyMove };
