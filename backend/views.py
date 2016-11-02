@@ -33,6 +33,14 @@ class ProblemList(generics.ListAPIView):
     queryset = models.Problem.objects.all()
     serializer_class = serializers.ProblemSerializer
 
+class CommentDetail(generics.RetrieveAPIView):
+    queryset = models.Comment.objects.all()
+    serializer_class = serializers.CommentSerializer
+
+class CommentList(generics.ListAPIView):
+    queryset = models.Comment.objects.all()
+    serializer_class = serializers.CommentSerializer
+
 # def random_color(request):
 #     colors = ['blue', 'red', 'green', 'orange', 'gray', 'purple']
 #     color = random.choice(colors)

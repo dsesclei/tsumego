@@ -32,5 +32,7 @@ urlpatterns = [
     url(r'^login', obtain_jwt_token),
     url(r'^problems/(?P<pk>[0-9]+)$', views.ProblemDetail.as_view()),
     url(r'^problems$', views.ProblemList.as_view()),
+    url(r'^comments/(?P<pk>[0-9]+)$', views.CommentDetail.as_view()),
+    url(r'^comments$', views.CommentList.as_view()),
     url(r'^register$', views.CreateUserView.as_view()),
 ]
