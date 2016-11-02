@@ -15,8 +15,7 @@ function error(state = null, action) {
         return errorMessageFactory(action.message);
       }
       break;
-    case 'SIGN_IN_SUCCESS':
-    case 'REGISTER_SUCCESS':
+    default:
       return null;
   }
   return state;

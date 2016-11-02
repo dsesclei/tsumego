@@ -1,7 +1,7 @@
 export function signInRequest(username, password) {
   return dispatch => {
     dispatch({ type: 'SIGN_IN' });
-    fetch('/api-token-auth/', { method: 'POST', headers: { 'Content-Type':'application/json' }, body: JSON.stringify({ username, password }) }).then(response => response.json().then(json => {
+    fetch('/login/', { method: 'POST', headers: { 'Content-Type':'application/json' }, body: JSON.stringify({ username, password }) }).then(response => response.json().then(json => {
        if (!json.token) {
         dispatch({
           type: 'SIGN_IN_FAILURE',

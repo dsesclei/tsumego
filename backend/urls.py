@@ -29,7 +29,7 @@ urlpatterns = [
     url(r'^$', TemplateView.as_view(template_name='index.html')),
     url(r'^sign_out', views.sign_out),
     url(r'^secrect', views.ExampleView.as_view()),
-    url(r'^api-token-auth/', obtain_jwt_token),
+    url(r'^login', obtain_jwt_token),
     url(r'^problems/(?P<pk>[0-9]+)$', views.ProblemDetail.as_view()),
     url(r'^problems$', views.ProblemList.as_view()),
     url(r'^register$', views.CreateUserView.as_view()),
