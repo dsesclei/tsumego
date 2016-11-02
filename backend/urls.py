@@ -33,4 +33,6 @@ urlpatterns = [
     url(r'^problems/(?P<pk>[0-9]+)$', views.ProblemDetail.as_view()),
     url(r'^problems$', views.ProblemList.as_view()),
     url(r'^register$', views.CreateUserView.as_view()),
+    
+
 ]
