@@ -1,4 +1,4 @@
-import { applyMove } from '../logic/go';
+import { isLegalMove, applyMove } from '../logic/go';
 
 const initialStones = [];
 for (let i = 0; i < 19; i++) {
@@ -29,7 +29,11 @@ const initialState = {
 
 function placeStone(state, action) {
   const stones = state.stones.map(row => row.slice());
+  const stones2 = state.stones.map(row => row.slice());
   const playerNumber = { black: 1, white: -1 }[state.playerToMove];
+  if (!isLegalMove(stones2, [action.row, action.col], playerNumber)) {
+    return state;
+  }
   applyMove(stones, [action.row, action.col], playerNumber);
 
   const moves = state.moves.slice();
