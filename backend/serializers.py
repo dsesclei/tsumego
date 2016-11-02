@@ -29,10 +29,10 @@ class UserProfileSerializer(serializers.ModelSerializer):
 class UserInfoSerializer(serializers.Serializer):
     email = serializers.EmailField()
     username = serializers.CharField(max_length=100)
-        
+
 class UserSerializer(serializers.ModelSerializer):
     token = serializers.SerializerMethodField()
-    
+
     class Meta:
         model = User
         fields = ('id', 'username', 'password', 'email', 'token')
