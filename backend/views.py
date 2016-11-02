@@ -1,10 +1,11 @@
 import random
 import json
 from django.http import JsonResponse
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import generics
+from django.contrib.auth.models import User
 from . import serializers
 from . import models
 
@@ -48,3 +49,10 @@ def secrect(request):
     if request.user.is_authenticated():
         return JsonResponse({ 'authenticated': 'yes' })
     return JsonResponse({ 'authenticated': 'no' })
+
+class CreateUserView(generics.CreateAPIView):
+    model = User
+    permission_classes = [
+        AllowAny # Or anon users can't register
+    ]
+    serializer_class = serializers.UserSerializer
