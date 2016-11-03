@@ -19,6 +19,7 @@ class AttemptSerializer(serializers.ModelSerializer):
 class ProblemSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Problem
+        board = serializers.JSONField()
         fields = ('board', 'start_row', 'end_row', 'start_col', 'end_col', 'rating', 'responses', 'timestamp', 'category')
 
 class UserProfileSerializer(serializers.ModelSerializer):

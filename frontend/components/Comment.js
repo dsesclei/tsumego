@@ -13,7 +13,6 @@ const styles = StyleSheet.create({
     width: '400px',
     margin: '20px',
     textAlign: 'left',
-    alignSelf: 'flex-start',
   },
   greyBackground: {
     backgroundColor: '#f4f4f4',

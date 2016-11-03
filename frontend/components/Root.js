@@ -14,7 +14,7 @@ const Root = () => (
     <Route path="/sign_in" component={SignIn} />
     <Route path="/register" component={Register} />
     <Route path="/profile" component={Profile} />
-    <Route path="/Problem" component={Problem} />
+    <Route path="/problem" component={Problem} />
   </Router>
 );
 

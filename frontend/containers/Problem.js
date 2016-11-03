@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { placeStone } from '../actions';
+import { placeStone, fetchProblem } from '../actions';
 import Problem from '../components/Problem';
 
 const mapStateToProps = (state) => {
@@ -8,6 +8,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    fetchProblem: () => dispatch(fetchProblem()),
     onClick: (row, col) => dispatch(placeStone(row, col)),
   };
 };

@@ -30,6 +30,7 @@ class ProblemDetail(generics.RetrieveAPIView):
     serializer_class = serializers.ProblemSerializer
 
 class ProblemList(generics.ListAPIView):
+    permission_classes = (AllowAny,)
     queryset = models.Problem.objects.all()
     serializer_class = serializers.ProblemSerializer
 

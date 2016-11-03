@@ -29,12 +29,12 @@ const initialState = {
 
 function placeStone(state, action) {
   const stones = state.stones.map(row => row.slice());
-  const stones2 = state.stones.map(row => row.slice());
   const playerNumber = { black: 1, white: -1 }[state.playerToMove];
-  if (!isLegalMove(stones2, [action.row, action.col], playerNumber)) {
+  if (!isLegalMove(stones, [action.row, action.col], playerNumber)) {
     return state;
   }
   applyMove(stones, [action.row, action.col], playerNumber);
+  console.log(JSON.stringify(stones));
 
   const moves = state.moves.slice();
   moves.push({ row: action.row, col: action.col });
@@ -49,6 +49,13 @@ function problem(state = initialState, action) {
   switch (action.type) {
     case 'PLACE_STONE':
       return placeStone(state, action);
+    case 'FETCH_PROBLEM_SUCCESS':
+      const randomProblem = action.problems[Math.floor(Math.random() * action.problems.length)];
+      return {
+        stones: JSON.parse(randomProblem.board),
+        moves: [],
+        playerToMove: 'black',
+      };
   }
   return state;
 }
