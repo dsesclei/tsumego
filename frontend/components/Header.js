@@ -10,7 +10,7 @@ const styles = StyleSheet.create({
     color: '#ffffff',
     display: 'flex',
     alignItems: 'center',
-    justifyContent: 'space-between',
+
     height: '50px',
     backgroundColor: Constants.darkPrimaryColor,
   },
@@ -20,9 +20,18 @@ const styles = StyleSheet.create({
     paddingLeft: '10px',
   },
   flexEnd: {
+    flex: 1,
     display: 'flex',
     justifyContent: 'flex-end',
     paddingRight: '30px',
+  },
+  item: {
+    display: 'flex',
+    paddingLeft: '10px',
+    paddingRight: '10px',
+    alignItems:"flex-start",
+    fontWeight: 'bold',
+    color: '#ffffff',
   },
   logo: {
     height: '50px',
@@ -58,7 +67,9 @@ const Header = ({ isSignedIn, username, onSignOut }) => {
 
   const SignedIn = (
     <div className={css(styles.header)}>
-      Hello {username}!
+    <Link to={'/profile'} className={css(styles.inlineLink)}>
+      <p>Hello {username}!</p>
+      </Link>
       <FlatButton
         label="Sign out"
         onClick={onSignOut}
@@ -74,14 +85,21 @@ const Header = ({ isSignedIn, username, onSignOut }) => {
     </Link>
   );
 
+  const FAQ =(
+    <Link to={'/help'} className={css(styles.item)}>
+    <p>FAQ</p>
+    </Link>
+  )
   return (
     <div className={css(styles.header)}>
       <div className={css(styles.flexStart)}>
         {Logo}
       </div>
+      <div className={css(styles.item)}>{FAQ}</div>
       <div className={css(styles.flexEnd)}>
         {isSignedIn ? SignedIn : SignedOut}
       </div>
+
     </div>
   );
 };
