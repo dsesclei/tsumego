@@ -143,6 +143,26 @@ export function postProblemComment(commentText) {
   // };
 }
 
+export function voteComment(commentId, vote) {
+  return dispatch => {
+    dispatch({ type: 'VOTE_COMMENT' });
+    const persistedState = localStorage.getItem('reduxState') ? JSON.parse(localStorage.getItem('reduxState')) : {};
+    fetch('/comments/' + commentId + '/vote',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': `JWT ${persistedState.user.id_token}` },
+        body: JSON.stringify({
+          value: vote == 1 ? '1' : '-1',
+        }),
+      }).then(r => r.json().then(json => {
+        if (json.status == 'success') {
+          dispatch({ type: 'VOTE_COMMENT_SUCCESS', vote: json });
+        }
+      })
+    );
+  };
+}
+
 
 export function placeStone(row, col) {
   return { type: 'PLACE_STONE', row, col };

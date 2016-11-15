@@ -10,6 +10,7 @@ from django.core.urlresolvers import reverse
 from django.contrib.staticfiles.templatetags.staticfiles import static
 from django.utils import formats
 from django.template.loader import render_to_string
+from django.db.models import F
 
 # Default value for null is False
 # Default value for blank is False

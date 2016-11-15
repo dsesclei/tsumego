@@ -1,5 +1,6 @@
 import random
 import json
+from django.db.models import F
 from django.http import JsonResponse
 from rest_framework.permissions import IsAuthenticated, AllowAny, IsAuthenticatedOrReadOnly
 from rest_framework.response import Response
@@ -24,6 +25,52 @@ class ExampleView(APIView):
             'status': 'request was permitted'
         }
         return JsonResponse(content)
+
+class VoteView(APIView):
+    permission_classes = (IsAuthenticated,)
+
+    def post(self, request, pk, format=None):
+        response = {
+            'status': 'fail',
+        }
+        # try if comment exist
+        try:
+            comment = models.Comment.objects.get(pk=pk)
+        except models.Comment.DoesNotExist:
+            # May cause error
+            response['message'] = 'Comment Does Not Exist'
+            return JsonResponse(response)
+        # validate vote value
+        value = request.data['value']
+        if not value or value not in ['1','-1']:
+            response['message'] = 'Comment Vote Does Not Exist'
+            return JsonResponse(response)
+        value = True if value == '1' else False 
+        # get previous vote by this user on this comment
+        vote, created = models.Vote.objects.get_or_create(user=request.user,comment=comment, defaults={'value': value})
+        response['value'] = value
+        response['commentId'] = pk
+        if created:
+            response['status'] = 'success'
+            if value:
+                comment.score = F('score') + 1
+            else:
+                comment.score = F('score') - 1
+            comment.save()
+        else:
+            if vote.value == value:
+                response['message'] = 'Same Vote Existed'
+            else:
+                response['status'] = 'success'
+                if vote.value:
+                    comment.score = F('score') - 2
+                else:
+                    comment.score = F('score') + 2
+                vote.value = value
+                vote.save()
+                comment.save()
+        response['score'] = models.Comment.objects.get(pk=pk).score
+        return JsonResponse(response)
 
 class ProblemDetail(generics.RetrieveAPIView):
     queryset = models.Problem.objects.all()

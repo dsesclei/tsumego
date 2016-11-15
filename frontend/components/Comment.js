@@ -49,8 +49,8 @@ class Comment extends React.Component {
       commentCards = this.props.comments.map((comment, index) => {
         return (
               <CardText expandable={index ? true: false} className={css(styles.comment)} key={comment.pk}>
-                <div>{comment.content}</div>
-                <Vote />
+                <div><p><strong>{comment.username} :</strong></p> {comment.content}</div>
+                <Vote score={comment.score} commentId={comment.pk} onVote={this.props.onVote} />
               </CardText>
         )
       })

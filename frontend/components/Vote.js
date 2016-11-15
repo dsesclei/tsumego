@@ -21,16 +21,16 @@ const styles = StyleSheet.create({
   },
 });
 
-const Vote = ({ commentId, voteNumber, onUpVote, onDownVote, selected }) => {
+const Vote = ({ commentId, score, onVote, selected }) => {
   return (
     <div className={css(styles.container)} >
       <ArrowUp 
-        onClick={()=> {onUpVote(commentId)}} 
+        onClick={()=> {onVote(commentId, 1)}} 
         className={css(styles.arrowUp)}
         />
-      <p>{voteNumber || '232'}</p>
+      <p>{score}</p>
       <ArrowDown 
-        onClick={()=> {onDownVote(commentId)}} 
+        onClick={()=> {onVote(commentId, -1)}} 
         className={css(styles.arrowDown)}
         />
     </div>

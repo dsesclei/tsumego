@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { fetchProblemComments, postProblemComment } from '../actions';
+import { postProblemComment, voteComment } from '../actions';
 import Comment from '../components/Comment';
 
 const mapStateToProps = (state) => {
@@ -12,6 +12,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     postProblemComment: (commentText) => dispatch(postProblemComment(commentText)),
+    onVote: (commentId, vote) => dispatch(voteComment(commentId, vote)),
   };
 };
 
