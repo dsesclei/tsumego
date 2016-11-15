@@ -50,9 +50,9 @@ function problem(state = initialState, action) {
     case 'PLACE_STONE':
       return placeStone(state, action);
     case 'FETCH_PROBLEM_SUCCESS':
-      const randomProblem = action.problems[Math.floor(Math.random() * action.problems.length)];
       return {
-        stones: JSON.parse(randomProblem.board),
+        id: action.problem.pk,
+        stones: JSON.parse(action.problem.board),
         moves: [],
         playerToMove: 'black',
       };

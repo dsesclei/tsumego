@@ -3,7 +3,7 @@ import { StyleSheet, css } from 'aphrodite';
 
 import Page from './Page';
 import Board from './Board';
-import Comment from './Comment';
+import Comment from '../containers/Comment';
 
 const styles = StyleSheet.create({
   gamePage: {

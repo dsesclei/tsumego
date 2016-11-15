@@ -35,38 +35,52 @@ const styles = StyleSheet.create({
   },
 });
 
-const Comment = ({ comments, onSubmit, }) => {
+class Comment extends React.Component {
+  onPostCommentSubmit(e) {
+    e.preventDefault(); 
+    this.props.postProblemComment(this.commentInput.getInputNode().value); 
+    this.commentInput.getInputNode().value = '';
+  }
   // inspired by http://codepen.io/faizanhaider/pen/pjmBeq
-  let textEl;
-  return (
+  render() {
+    let commentCards;
+    let commentsLength = this.props.comments ? this.props.comments.length : 0;
+    if (this.props.comments) {
+      commentCards = this.props.comments.map((comment, index) => {
+        return (
+              <CardText expandable={index ? true: false} className={css(styles.comment)} key={comment.pk}>
+                <div>{comment.content}</div>
+                <Vote />
+              </CardText>
+        )
+      })
+    }
+    else {
+      commentCards = (
+        <CardText expandable={false} className={css(styles.comment)}>
+          <div>No comment yet.</div>
+        </CardText>
+      )
+    }
+    return (
   <Card className={css(styles.commentBox)}>
     <CardHeader
-      title="3 Comments"
+      title={commentsLength + " comment" + (commentsLength ? 's' : '')}
       //subtitle="Subtitle"
       actAsExpander={true}
       showExpandableButton={true}
       className={css(styles.greyBackground)}
     />
-    <CardText expandable={false} className={css(styles.comment)}>
-      <div>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div>
-      <Vote />
-    </CardText>
-    <CardText expandable={true}  className={css(styles.comment)}>
-      Nunc lacinia auctor quam sed pellentesque.
-      <Vote />
-    </CardText>
-    <CardText expandable={true}  className={css(styles.comment)}>
-      Sed pellentesque nunc lacinia auctor quam.
-      <Vote />
-    </CardText>
+    {commentCards}
     <CardText expandable={false} className={css(styles.postComment)}>
-      <form onSubmit={e => { e.preventDefault(); onSubmit(textEl.getInputNode().value); }}>
-        <TextField hintText="Add a comment"  className={css(styles.textInput)} />
+      <form onSubmit={e => {this.onPostCommentSubmit(e)}}>
+        <TextField hintText="Add a comment"  className={css(styles.textInput)} ref = {r => this.commentInput = r} />
         <RaisedButton  type="submit" label="Post" primary={true} />
       </form>
     </CardText>
   </Card>
-  );
-};
+    );
+  }
+}
 
 export default Comment;

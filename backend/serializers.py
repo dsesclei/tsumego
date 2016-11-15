@@ -5,11 +5,28 @@ from . import models, settings
 from django.contrib.auth.models import User
 import jwt
 from rest_framework_jwt.utils import jwt_payload_handler
+from rest_framework.fields import CurrentUserDefault
 
 class CommentSerializer(serializers.ModelSerializer):
+    user = serializers.PrimaryKeyRelatedField(read_only=True, default=serializers.CurrentUserDefault())
+    username = serializers.SerializerMethodField()
+
     class Meta:
         model = models.Comment
-        fields = ('content', 'pub_date', 'score')
+        fields = ('content', 'pub_date', 'score', 'username', 'user', 'pk') 
+        read_only_fields = ('user', 'username', 'score', 'pub_date', 'pk')
+
+    def get_username(self, comment):
+        return comment.user.username
+
+    # def create(self, validated_data):
+    #     user = None
+    #     request = self.context.get("request")
+    #     if request and hasattr(request, "user"):
+    #         user = request.user
+    #         comment = models.Comment.create(user=self.request.user, content=self.validated_data['content'])
+    #         return comment
+    #     return None    
 
 class AttemptSerializer(serializers.ModelSerializer):
     class Meta:
@@ -20,7 +37,7 @@ class ProblemSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Problem
         board = serializers.JSONField()
-        fields = ('board', 'start_row', 'end_row', 'start_col', 'end_col', 'rating', 'responses', 'timestamp', 'category')
+        fields = ('pk', 'board', 'start_row', 'end_row', 'start_col', 'end_col', 'rating', 'responses', 'timestamp', 'category')
 
 class UserProfileSerializer(serializers.ModelSerializer):
     class Meta:

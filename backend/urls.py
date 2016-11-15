@@ -31,6 +31,8 @@ urlpatterns = [
     url(r'^secrect', views.ExampleView.as_view()),
     url(r'^login', obtain_jwt_token),
     url(r'^problems/(?P<pk>[0-9]+)$', views.ProblemDetail.as_view()),
+    url(r'^problems/(?P<pk>[0-9]+)/comments$', views.ProblemCommentsList.as_view()),
+    url(r'^problems/next$', views.ProblemNext.as_view()),
     url(r'^problems$', views.ProblemList.as_view()),
     url(r'^comments/(?P<pk>[0-9]+)$', views.CommentDetail.as_view()),
     url(r'^comments$', views.CommentList.as_view()),

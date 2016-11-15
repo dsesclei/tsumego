@@ -77,14 +77,70 @@ export function signOutRequest() {
 export function fetchProblem() {
   return dispatch => {
     dispatch({ type: 'FETCH_PROBLEM' });
-    fetch('/problems',
+    fetch('/problems/next',
       {
         method: 'GET',
       }).then(r => r.json().then(json => {
-        dispatch({ type: 'FETCH_PROBLEM_SUCCESS', problems: json });
+        dispatch({ type: 'FETCH_PROBLEM_SUCCESS', problem: json });
+        
+        dispatch({ type: 'FETCH_PROBLEM_COMMENTS' });        
+        fetch('/problems/' + json.pk + '/comments',
+        {
+          method: 'GET',
+        }).then(r => r.json().then(json => {
+          dispatch({ type: 'FETCH_PROBLEM_COMMENTS_SUCCESS', comments: json });
+        })
+        );
+
       })
     );
   };
+}
+
+// This method is not being used right now.
+export function fetchProblemComments() {
+  debugger;
+  return dispatch => {
+    dispatch({ type: 'FETCH_PROBLEM_COMMENTS' });
+    const persistedState = localStorage.getItem('reduxState') ? JSON.parse(localStorage.getItem('reduxState')) : {};
+    const id = pk || (persistedState && persistedState.problem && persistedState.problem.id);
+    fetch('/problems/' + id + '/comments',
+      {
+        method: 'GET',
+      }).then(r => r.json().then(json => {
+        dispatch({ type: 'FETCH_PROBLEM_COMMENTS_SUCCESS', comments: json });
+      })
+    );
+  };
+}
+
+export function postProblemComment(commentText) {
+  return dispatch => {
+    dispatch({ type: 'POST_PROBLEM_COMMENT' });
+    const persistedState = localStorage.getItem('reduxState') ? JSON.parse(localStorage.getItem('reduxState')) : {};
+    const id = persistedState && persistedState.problem && persistedState.problem.id;
+    fetch('/problems/' + id + '/comments',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': `JWT ${persistedState.user.id_token}` },
+        body: JSON.stringify({
+          content: commentText,
+        }),
+      }).then(r => r.json().then(json => {
+        dispatch({ type: 'POST_PROBLEM_COMMENTS_SUCCESS', comment: json });
+      })
+    );
+  };
+  // return dispatch => {
+  //   dispatch({ type: 'FETCH_PROBLEM' });
+  //   fetch('/problems',
+  //     {
+  //       method: 'GET',
+  //     }).then(r => r.json().then(json => {
+  //       dispatch({ type: 'FETCH_PROBLEM_SUCCESS', problems: json });
+  //     })
+  //   );
+  // };
 }
 
 

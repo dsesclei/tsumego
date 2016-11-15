@@ -34,6 +34,9 @@ class Problem(models.Model):
     timestamp = models.DateTimeField(auto_now_add=True, blank=True)
     category = models.CharField(max_length=100, blank=False, default='')
 
+    def __str__(self):
+        return str(self.pk)
+
 class Comment(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     content = models.CharField(max_length=5000)
@@ -55,6 +58,10 @@ class Comment(models.Model):
 
     def __str__(self):
         return self.content
+
+    class Meta:
+        ordering = ['-pub_date']
+    
 
 class Vote(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
