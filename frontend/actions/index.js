@@ -98,7 +98,7 @@ export function fetchProblem() {
 }
 
 // This method is not being used right now.
-export function fetchProblemComments() {
+export function fetchProblemComments(pk=0) {
   debugger;
   return dispatch => {
     dispatch({ type: 'FETCH_PROBLEM_COMMENTS' });
@@ -163,6 +163,25 @@ export function voteComment(commentId, vote) {
   };
 }
 
+export function postAttempt(successful, duration) {
+  return dispatch => {
+    dispatch({ type: 'POST_ATTEMPT' });
+    const persistedState = localStorage.getItem('reduxState') ? JSON.parse(localStorage.getItem('reduxState')) : {};
+    const id = persistedState && persistedState.problem && persistedState.problem.id;
+    fetch('/problems/' + id + '/attempts',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': `JWT ${persistedState.user.id_token}` },
+        body: JSON.stringify({
+          successful,
+          duration
+        }),
+      }).then(r => r.json().then(json => {
+          dispatch({ type: 'POST_ATTEMPT_SUCCESS', vote: json });
+      })
+    );
+  };
+}
 
 export function placeStone(row, col) {
   return { type: 'PLACE_STONE', row, col };

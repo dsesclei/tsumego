@@ -155,3 +155,20 @@ class CreateUserView(generics.CreateAPIView):
         AllowAny # Or anon users can't register
     ]
     serializer_class = serializers.UserSerializer
+
+class CreateAttemptView(generics.CreateAPIView):
+    model = models.Attempt
+    permission_classes = [
+        IsAuthenticated # Not set to current user only yet. 
+    ]
+    serializer_class = serializers.AttemptSerializer
+
+    def perform_create(self, serializer):
+        try:
+            problem = models.Problem.objects.get(pk=self.kwargs['pk'])
+        except models.Problem.DoesNotExist:
+            raise ValidationError('Problem Does Not Exist')
+        queryset = models.Attempt.objects.filter(user=self.request.user, problem=problem)
+        if queryset.exists():
+            raise ValidationError('You have already tried before')
+        serializer.save(user=self.request.user, problem=problem, problem_rating=problem.rating, user_rating=self.request.user.profile.ranking)
