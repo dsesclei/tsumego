@@ -1,3 +1,5 @@
+import { Router, Route, hashHistory } from 'react-router';
+
 export function signInRequest(username, password) {
   return dispatch => {
     dispatch({ type: 'SIGN_IN' });
@@ -13,6 +15,7 @@ export function signInRequest(username, password) {
             message: json,
           });
         } else {
+          hashHistory.push('/')
           dispatch({
             type: 'SIGN_IN_SUCCESS',
             id_token: json.token || '',
@@ -40,6 +43,7 @@ export function registerRequest(username, password, email) {
             message: json,
           });
         } else {
+          hashHistory.push('/')
           dispatch({
             type: 'REGISTER_SUCCESS',
             id_token: json.token || null,
@@ -70,7 +74,8 @@ export function secrectRequest() {
 export function signOutRequest() {
   return dispatch => {
     dispatch({ type: 'SIGN_OUT' });
-    fetch('/sign_out');
+    //fetch('/sign_out');
+    hashHistory.push('/')
   };
 }
 
