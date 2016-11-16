@@ -49,8 +49,8 @@ class Comment(models.Model):
     def get_score(self):
         return self.score
 
-    def assign_score(self, i):
-	self.score = i;
+    def assign_score(self, x):
+	self.score = x;
 
     def upvote(self):
         self.score += 1
