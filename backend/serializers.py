@@ -7,10 +7,10 @@ import jwt
 from rest_framework_jwt.utils import jwt_payload_handler
 from rest_framework.fields import CurrentUserDefault
 
-class SettingSerializer(serializers.ModelSerializer):
+class SettingsSerializer(serializers.ModelSerializer):
     class Meta:
-        model = models.Setting
-        fields = ('ranking')
+        model = models.Settings
+        fields = ('display_timer', 'book_mode')
 
 class CommentSerializer(serializers.ModelSerializer):
     user = serializers.PrimaryKeyRelatedField(read_only=True, default=serializers.CurrentUserDefault())

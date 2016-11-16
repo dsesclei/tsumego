@@ -89,15 +89,10 @@ class VoteView(APIView):
 # |___/\___|\__|\__|_|_||_\__, /__/
 #                         |___/    
 
-class Settings(APIView):
-    queryset = models.Setting.objects.all()
-    serializer_class = serializers.SettingSerializer
-
-    def get(self, request, *args, **kwargs):
-        return self.list(request, *args, **kwargs)
-
-    def post(self, request, *args, **kwargs):
-        return self.create(request, *args, **kwargs)
+class Settings(generics.RetrieveAPIView):
+    queryset = models.Settings.objects.all()
+    serializer_class = serializers.SettingsSerializer
+    permission_classes = (AllowAny,)
 
 #  ___         _    _              
 # | _ \_ _ ___| |__| |___ _ __  ___
@@ -107,6 +102,7 @@ class Settings(APIView):
 class ProblemDetail(generics.RetrieveAPIView):
     queryset = models.Problem.objects.all()
     serializer_class = serializers.ProblemSerializer
+    permission_classes = (AllowAny,)
 
 class ProblemNext(generics.ListAPIView):
     permission_classes = (AllowAny,)
@@ -131,7 +127,7 @@ class ProblemList(generics.ListAPIView):
 
 class ProblemCommentsList(generics.ListCreateAPIView):
     serializer_class = serializers.CommentSerializer
-    permission_classes = (IsAuthenticatedOrReadOnly,)
+    permission_classes = (AllowAny,)
     
     def perform_create(self, serializer):
         try:
@@ -189,7 +185,7 @@ class UserList(generics.ListAPIView):
 
 class UserCommentsList(generics.ListCreateAPIView):
     serializer_class = serializers.CommentSerializer
-    permission_classes = (IsAuthenticatedOrReadOnly,)
+    permission_classes = (AllowAny,)
     
     def perform_create(self, serializer):
         try:
