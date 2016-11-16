@@ -83,8 +83,8 @@ function drawStones(stones, cellSize, padding, playerToMove, onClick) {
       stoneEls.push(
         <circle
           key={`${row},${col}`}
-          cx={padding + (cellSize * row)}
-          cy={padding + (cellSize * col)}
+          cx={padding + (cellSize * col)}
+          cy={padding + (cellSize * row)}
           r={(cellSize / 2) * 0.9}
           {...attrs}
         />

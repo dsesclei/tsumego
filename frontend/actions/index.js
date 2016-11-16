@@ -189,5 +189,10 @@ export function postAttempt(successful, duration) {
 }
 
 export function placeStone(row, col) {
-  return { type: 'PLACE_STONE', row, col };
+  return dispatch => {
+    dispatch({ type: 'PLACE_STONE', row, col });
+    setTimeout(() => {
+      dispatch({ type: 'RESPOND' });
+    }, 1000);
+  };
 }
