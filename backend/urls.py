@@ -27,7 +27,7 @@ urlpatterns = [
     url(r'^login', obtain_jwt_token),
     url(r'^logout', views.sign_out),
     url(r'^register$', views.CreateUserView.as_view()),
-	url(r'^accounts$', views.UserList.as_view()),
+	url(r'^users$', views.UserList.as_view()),
 	url(r'^users/(?P<pk>[0-9]+)$', views.UserDetail.as_view()),
 	url(r'^users/(?P<pk>[0-9]+)/comments$', views.UserCommentsList.as_view()),
 	url(r'^settings$', views.Settings.as_view()),

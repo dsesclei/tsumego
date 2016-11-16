@@ -47,7 +47,7 @@ class ProblemSerializer(serializers.ModelSerializer):
 class UserProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.UserProfile
-        fields = ('ranking')
+        fields = ('user', 'ranking')
 
 class UserInfoSerializer(serializers.Serializer):
     email = serializers.EmailField()

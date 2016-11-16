@@ -24,6 +24,9 @@ class UserProfile(models.Model):
         self.ranking = self.ranking+i
         self.save()
 
+    def __str__(self):
+        return str(self.pk)
+
 class Problem(models.Model):
     board = models.CharField(max_length=400, blank=False)
     start_row = models.PositiveSmallIntegerField(blank=True, default=0)
@@ -46,11 +49,9 @@ class Comment(models.Model):
     profile = models.ForeignKey(UserProfile, on_delete=models.CASCADE, null=True, blank=True)
     score = models.IntegerField(blank=True, default=0)
 
-    def get_score(self):
-        return self.score
-
     def assign_score(self, i):
-	self.score = i;
+       self.score = i;
+       self.save()
 
     def upvote(self):
         self.score += 1
@@ -61,7 +62,7 @@ class Comment(models.Model):
         self.save()
 
     def __str__(self):
-        return self.content
+        return str(self.pk)
 
     class Meta:
         ordering = ['-pub_date']
