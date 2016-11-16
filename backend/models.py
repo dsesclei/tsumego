@@ -65,6 +65,10 @@ class Comment(models.Model):
 
     class Meta:
         ordering = ['-pub_date']
+
+class Setting(models.Model):
+    display_timer = models.BooleanField(default=False)
+    book_mode = models.BooleanField(default=False)
     
 
 class Vote(models.Model):

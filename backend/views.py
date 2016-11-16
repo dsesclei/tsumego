@@ -11,6 +11,11 @@ from django.core.exceptions import ValidationError
 from . import serializers
 from . import models
 
+#  ___                     _        
+# | __|_ ____ _ _ __  _ __| |___ ___
+# | _|\ \ / _` | '  \| '_ \ / -_|_-<
+# |___/_\_\__,_|_|_|_| .__/_\___/__/
+#                    |_|            
 
 class ExampleView(APIView):
     permission_classes = (IsAuthenticated,)
@@ -27,6 +32,11 @@ class ExampleView(APIView):
         }
         return JsonResponse(content)
 
+# __   __   _          
+# \ \ / /__| |_ ___ ___
+#  \ V / _ \  _/ -_|_-<
+#   \_/\___/\__\___/__/
+                      
 class VoteView(APIView):
     permission_classes = (IsAuthenticated,)
 
@@ -80,6 +90,8 @@ class VoteView(APIView):
 #                         |___/    
 
 class Settings(APIView):
+    queryset = models.Setting.objects.all()
+    serializer_class = serializers.SettingSerializer
 
     def get(self, request, *args, **kwargs):
         return self.list(request, *args, **kwargs)
@@ -165,6 +177,44 @@ class CommentList(generics.ListAPIView):
     def get_queryset(self):
         pk = self.kwargs['pk']
         return models.Comment.objects.filter(problem=pk)
+#  _   _                
+# | | | |___ ___ _ _ ___
+# | |_| (_-</ -_) '_(_-<
+#  \___//__/\___|_| /__/
+                       
+class UserList(generics.ListAPIView):
+    permission_classes = (AllowAny,)
+    queryset = models.UserProfile.objects.all()
+    serializer_class = serializers.UserProfileSerializer
+
+class UserCommentsList(generics.ListCreateAPIView):
+    serializer_class = serializers.CommentSerializer
+    permission_classes = (IsAuthenticatedOrReadOnly,)
+    
+    def perform_create(self, serializer):
+        try:
+            problem = models.UserProfile.objects.get(pk=self.kwargs['pk'])
+        except models.UserProfile.DoesNotExist:
+            raise ValidationError('User does not exist!')
+        # queryset = models.Problem.objects.filter(pk=self.kwargs['pk'])
+        # if queryset.exists():
+        #     raise ValidationError('You have already signed up')
+        serializer.save(user=user)
+
+    def get(self, request, *args, **kwargs):
+        return self.list(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        return self.create(request, *args, **kwargs)
+
+    def get_queryset(self):
+        pk = self.kwargs['pk']
+        return models.Comment.objects.filter(problem=pk)
+
+class UserDetail(generics.RetrieveAPIView):
+    permission_classes = (AllowAny,)
+    queryset = models.UserProfile.objects.all()
+    serializer_class = serializers.UserProfileSerializer
 
 # def random_color(request):
 #     colors = ['blue', 'red', 'green', 'orange', 'gray', 'purple']
