@@ -49,18 +49,6 @@ class Comment(models.Model):
     profile = models.ForeignKey(UserProfile, on_delete=models.CASCADE, null=True, blank=True)
     score = models.IntegerField(blank=True, default=0)
 
-    def assign_score(self, i):
-       self.score = i;
-       self.save()
-
-    def upvote(self):
-        self.score += 1
-        self.save()
-
-    def downvote(self):
-        self.score -= 1
-        self.save()
-
     def __str__(self):
         return str(self.pk)
 
@@ -68,6 +56,7 @@ class Comment(models.Model):
         ordering = ['-pub_date']
 
 class Settings(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     display_timer = models.BooleanField(default=False)
     book_mode = models.BooleanField(default=False)
 

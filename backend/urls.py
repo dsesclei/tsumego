@@ -38,7 +38,6 @@ urlpatterns = [
     url(r'^problems/(?P<pk>[0-9]+)/comments$', views.ProblemCommentsList.as_view()),
     url(r'^comments/(?P<pk>[0-9]+)$', views.CommentDetail.as_view()),
     url(r'^comments/(?P<pk>[0-9]+)/vote$', views.VoteView.as_view()),
-    url(r'^comments$', views.CommentList.as_view()),
     url(r'^secrect', views.ExampleView.as_view()),	
     url(r'^admin/', admin.site.urls),
     url(r'^$', TemplateView.as_view(template_name='index.html')),

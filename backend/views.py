@@ -159,20 +159,6 @@ class CommentDetail(generics.RetrieveAPIView):
     queryset = models.Comment.objects.all()
     serializer_class = serializers.CommentSerializer
 
-class CommentList(generics.ListAPIView):
-    permission_classes = (AllowAny,)
-    queryset = models.Comment.objects.all()
-    serializer_class = serializers.CommentSerializer
-
-    def get(self, request, *args, **kwargs):
-        return self.list(request, *args, **kwargs)
-
-    def post(self, request, *args, **kwargs):
-        return self.create(request, *args, **kwargs)
-
-    def get_queryset(self):
-        pk = self.kwargs['pk']
-        return models.Comment.objects.filter(problem=pk)
 #  _   _                
 # | | | |___ ___ _ _ ___
 # | |_| (_-</ -_) '_(_-<
@@ -205,7 +191,7 @@ class UserCommentsList(generics.ListCreateAPIView):
 
     def get_queryset(self):
         pk = self.kwargs['pk']
-        return models.Comment.objects.filter(problem=pk)
+        return models.Comment.objects.filter(user=pk)
 
 class UserDetail(generics.RetrieveAPIView):
     permission_classes = (AllowAny,)
