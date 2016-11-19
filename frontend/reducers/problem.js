@@ -90,8 +90,20 @@ function respond(state) {
 function fetchProblemSuccess(state, action) {
   return {
     ...state,
-    responses: JSON.parse(action.problem.responses),
+    initialStones: JSON.parse(action.problem.board), // Save copy for retry
     stones: JSON.parse(action.problem.board),
+    responses: JSON.parse(action.problem.responses),
+    moves: [],
+    status: Constants.statusAttempting,
+    playerToMove: 'black',
+  };
+}
+
+function retry(state) {
+  const stones = state.initialStones.map(row => row.slice());
+  return {
+    ...state,
+    stones,
     moves: [],
     status: Constants.statusAttempting,
     playerToMove: 'black',
@@ -106,6 +118,8 @@ function problem(state = initialState, action) {
       return fetchProblemSuccess(state, action);
     case 'RESPOND':
       return respond(state);
+    case 'RETRY':
+      return retry(state);
   }
   return state;
 }

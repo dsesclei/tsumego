@@ -8,6 +8,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    retry: () => dispatch({ type: 'RETRY' }),
     fetchProblem: () => dispatch(fetchProblem()),
     onClick: (row, col) => dispatch(placeStone(row, col)),
   };

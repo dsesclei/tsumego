@@ -54,6 +54,9 @@ const styles = StyleSheet.create({
   failed: {
     boxShadow: '0 0 11px 2px rgba(244, 67, 54, 0.8)',
   },
+  buttons: {
+    height: '100px',
+  },
   button: {
     marginTop: '10px',
   },
@@ -87,15 +90,14 @@ class Problem extends React.Component {
     if (hasSucceeded || hasFailed) {
       headerText = hasSucceeded ? 'Correct!' : 'Incorrect';
       buttons = (
-        <div>
-          <div><RaisedButton className={css(styles.button)} containerElement={<Link to="/register" />} label="Retry" /></div>
+        <div className={css(styles.buttons, styles.flexCenter)}>
+          <div><RaisedButton className={css(styles.button)} onClick={this.props.retry} label="Retry" /></div>
           <div><RaisedButton className={css(styles.button)} containerElement={<Link to="/register" />} label="Next" /></div>
         </div>
       );
     } else {
       buttons = (
-        <div>
-          <div><RaisedButton className={css(styles.button)} containerElement={<Link to="/register" />} label="Give Up" /></div>
+        <div className={css(styles.buttons)}>
           <div><RaisedButton className={css(styles.button)} containerElement={<Link to="/register" />} label="Skip" /></div>
         </div>
       );
