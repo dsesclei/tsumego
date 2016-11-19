@@ -1,4 +1,5 @@
 import { isLegalMove, applyMove } from '../logic/go';
+import Constants from '../constants';
 
 const initialStones = [];
 for (let i = 0; i < 19; i++) {
@@ -12,25 +13,15 @@ for (let i = 0; i < 19; i++) {
 const initialState = {
   stones: initialStones,
   responses: {
-    start: {
-      '0,0': {
-        response: '1,1',
-        '0,3': {
-          response: '0,4',
-          '2,4': {
-            success: true,
-          },
-        },
-      },
-    },
+    start: {},
   },
-  moves: ['start'],
+  moves: [],
   playerToMove: 'black',
-  isWaitingForResponse: false,
+  status: Constants.statusAttempting,
 };
 
 function placeStone(state, action) {
-  if (state.isWaitingForResponse) {
+  if (state.status !== Constants.statusAttempting) {
     return state;
   }
   const stones = state.stones.map(row => row.slice());
@@ -47,63 +38,62 @@ function placeStone(state, action) {
     stones,
     moves,
     playerToMove: { black: 'white', white: 'black' }[state.playerToMove],
-    isWaiting: true,
+    status: Constants.statusResponding,
   };
 }
 
 function respond(state) {
-  const stones = state.stones.map(row => row.slice());
+  if (state.status !== Constants.statusResponding) {
+    return state;
+  }
+  if (state.moves.length === 0) {
+    throw new Error('Should have at least one move');
+  }
 
-  let response = state.responses;
+  let nextStatus = Constants.statusAttempting;
+  const stones = state.stones.map(row => row.slice());
+  let node = state.responses;
   for (const move of state.moves) {
-    if (move in response) {
-      response = response[move];
+    if ('responses' in node) {
+      node = node.responses;
+    }
+    if (move in node) {
+      node = node[move];
     } else {
-      console.log('off path');
-      return state;
+      nextStatus = Constants.statusFailed;
+      break;
     }
   }
 
-  if ('success' in response) {
-    if (response.success) {
-      console.log('success');
-    } else {
-      console.log('failure');
-    }
-  } else {
+  if ('move' in node) {
     const playerNumber = { black: 1, white: -1 }[state.playerToMove];
-    const parts = response.move.split(',');
+    const parts = node.move.split(',');
     const row = parseInt(parts[0], 10);
     const col = parseInt(parts[1], 10);
     applyMove(stones, [row, col], playerNumber);
   }
 
+  if ('success' in node) {
+    nextStatus = node.success ? Constants.statusSucceeded : Constants.statusFailed;
+  } else if (!('responses' in node)) {
+    nextStatus = Constants.statusFailed;
+  }
+
   return {
     ...state,
     stones,
+    status: nextStatus,
     playerToMove: { black: 'white', white: 'black' }[state.playerToMove],
-    isWaiting: false,
   };
 }
 
 function fetchProblemSuccess(state, action) {
   return {
     ...state,
-    responses: {
-      start: {
-        '0,0': {
-          move: '0,1',
-          '0,3': {
-            move: '0,4',
-            '2,4': {
-              success: true,
-            },
-          },
-        },
-      },
-    },
+    responses: JSON.parse(action.problem.responses),
     stones: JSON.parse(action.problem.board),
-    moves: ['start'],
+    moves: [],
+    status: Constants.statusAttempting,
     playerToMove: 'black',
   };
 }

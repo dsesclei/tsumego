@@ -1,4 +1,4 @@
-import { Router, Route, hashHistory } from 'react-router';
+import { hashHistory } from 'react-router';
 
 export function signInRequest(username, password) {
   return dispatch => {
@@ -193,6 +193,6 @@ export function placeStone(row, col) {
     dispatch({ type: 'PLACE_STONE', row, col });
     setTimeout(() => {
       dispatch({ type: 'RESPOND' });
-    }, 1000);
+    }, 250);
   };
 }
