@@ -6,6 +6,7 @@ const mapStateToProps = (state) => {
   return {
     isSignedIn: state.user.id_token != null,
     username: state.user.username,
+    rating: state.user.rating,
   };
 };
 

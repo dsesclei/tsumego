@@ -31,12 +31,12 @@ class UserTestCase(TransactionTestCase):
 	self.assertTrue(logged_in)
 
     def test_user_profile(self):
-	testRank = 1; # start the user with this rank
+	testRating = 1; # start the user with this rating
 	user1 = User.objects.create_user(username='Janice', email='jJanice@hotmail.com', password='goJanice')
 	user1.save()
-	profile = UserProfile.objects.create(user=user1, ranking=testRank)
-	profile.update_rank(1) #should just increment the rank by 1	
-	self.assertEqual(profile.ranking, testRank + 1) #test ranking
+	profile = UserProfile.objects.create(user=user1, rating=testRating)
+	profile.update_rating(1) #should just increment the rating by 1	
+	self.assertEqual(profile.rating, testRating + 1) #test rating
 	self.assertEqual(profile.__str__(), str(profile.pk)) #test __str__() (to get the primary key of the object)
 
     def test_problem(self):
@@ -70,7 +70,7 @@ class UserTestCase(TransactionTestCase):
 			start_row=0, end_row=18, start_col=0, end_col=18, rating=1.0, responses='hard', 
 			timestamp=timezone.now(), category='mid-game')
 
-	profile = UserProfile.objects.create(user=user1, ranking=4)
+	profile = UserProfile.objects.create(user=user1, rating=4)
 
 	comment1 = Comment.objects.create(user=user1, content = 'AWESOME!', pub_date=timezone.now(), problem=problem1,
 			profile=profile, score=5)

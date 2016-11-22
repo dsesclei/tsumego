@@ -79,27 +79,40 @@ export function signOutRequest() {
   };
 }
 
+export function fetchRating() {
+  console.log('hi');
+  console.log('hi');
+  console.log('hi');
+  console.log('hi');
+  console.log('hi');
+  return dispatch => {
+    dispatch({ type: 'FETCH_RATING' });
+    const persistedState = localStorage.getItem('reduxState') ? JSON.parse(localStorage.getItem('reduxState')) : {};
+    fetch('/rating', {
+      method: 'GET',
+      headers: { 'Content-Type': 'application/json', 'Authorization': `JWT ${persistedState.user.id_token}` },
+    }).then(r => r.json().then(json => {
+      dispatch({ type: 'FETCH_RATING_SUCCESS', rating: json.rating });
+    }));
+  };
+}
+
 export function fetchProblem() {
   return dispatch => {
     dispatch({ type: 'FETCH_PROBLEM' });
-    fetch('/problems/next',
-      {
-        method: 'GET',
-      }).then(r => r.json().then(json => {
-        dispatch({ type: 'FETCH_PROBLEM_SUCCESS', problem: json });
-        
-        dispatch({ type: 'FETCH_PROBLEM_COMMENTS' });        
-        fetch('/problems/' + json.pk + '/comments',
-        {
-          method: 'GET',
-        }).then(r => r.json().then(json => {
-          dispatch({ type: 'FETCH_PROBLEM_COMMENTS_SUCCESS', comments: json });
-        })
-        );
-
-      })
-    );
+    fetch('/problems/next', { method: 'GET' }).then(r => r.json().then(json => {
+      dispatch({ type: 'FETCH_PROBLEM_SUCCESS', problem: json });
+      dispatch({ type: 'FETCH_PROBLEM_COMMENTS' });
+      fetch(`/problems/${json.pk}/comments`, { method: 'GET' }).then(r => r.json().then(json => {
+        dispatch({ type: 'FETCH_PROBLEM_COMMENTS_SUCCESS', comments: json });
+      }));
+    }));
+    fetchRating()(dispatch);
   };
+}
+
+export function skip() {
+  return fetchProblem();
 }
 
 // This method is not being used right now.
@@ -163,26 +176,6 @@ export function voteComment(commentId, vote) {
         if (json.status == 'success') {
           dispatch({ type: 'VOTE_COMMENT_SUCCESS', vote: json });
         }
-      })
-    );
-  };
-}
-
-export function postAttempt(successful, duration) {
-  return dispatch => {
-    dispatch({ type: 'POST_ATTEMPT' });
-    const persistedState = localStorage.getItem('reduxState') ? JSON.parse(localStorage.getItem('reduxState')) : {};
-    const id = persistedState && persistedState.problem && persistedState.problem.id;
-    fetch('/problems/' + id + '/attempts',
-      {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'Authorization': `JWT ${persistedState.user.id_token}` },
-        body: JSON.stringify({
-          successful,
-          duration
-        }),
-      }).then(r => r.json().then(json => {
-          dispatch({ type: 'POST_ATTEMPT_SUCCESS', vote: json });
       })
     );
   };

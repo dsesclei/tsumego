@@ -6,8 +6,10 @@ from rest_framework.permissions import IsAuthenticated, AllowAny, IsAuthenticate
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import generics
+from rest_framework.decorators import api_view
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError 
+from elo import calculate_elo_delta
 from . import serializers
 from . import models
 
@@ -215,6 +217,10 @@ def secrect(request):
         return JsonResponse({ 'authenticated': 'yes' })
     return JsonResponse({ 'authenticated': 'no' })
 
+@api_view(['GET'])
+def rating(request):
+    return JsonResponse({ 'rating': request.user.profile.rating })
+
 class CreateUserView(generics.CreateAPIView):
     model = User
     permission_classes = [
@@ -234,4 +240,20 @@ class CreateAttemptView(generics.CreateAPIView):
             problem = models.Problem.objects.get(pk=self.kwargs['pk'])
         except models.Problem.DoesNotExist:
             raise ValidationError('Problem Does Not Exist')
-        serializer.save(user=self.request.user, problem=problem, problem_rating=problem.rating, user_rating=self.request.user.profile.ranking)
+        successful = serializer.validated_data['successful']
+        user_rating = self.request.user.profile.rating
+        serializer.save(user=self.request.user, problem=problem, problem_rating=problem.rating, user_rating=user_rating)
+        if successful:
+            elo_delta = calculate_elo_delta(user_rating, problem.rating)
+            profile = self.request.user.profile
+            profile.rating += elo_delta
+            problem.rating -= elo_delta
+            profile.save()
+            problem.save()
+        else:
+            elo_delta = calculate_elo_delta(problem.rating, user_rating)
+            profile = self.request.user.profile
+            problem.rating -= elo_delta
+            profile.rating += elo_delta
+            problem.save()
+            profile.save()

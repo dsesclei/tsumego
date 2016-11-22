@@ -1,5 +1,6 @@
 const initialState = {
   id_token: null,
+  rating: 0,
 };
 
 function user(state = initialState, action) {
@@ -18,6 +19,8 @@ function user(state = initialState, action) {
     case 'REGISTER_FAILURE':
     case 'SIGN_OUT':
       return initialState;
+    case 'FETCH_RATING_SUCCESS':
+      return { ...state, rating: action.rating };
   }
   return state;
 }

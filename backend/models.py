@@ -17,10 +17,9 @@ from django.db.models import F
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User, unique=True, on_delete=models.CASCADE, related_name="profile")
-    ranking = models.PositiveIntegerField(default=0, blank=True)
-    # completedGame
+    rating = models.PositiveIntegerField(default=0, blank=True)
 
-    def update_rank(self, i):
+    def update_rating(self, i):
         self.ranking = self.ranking+i
         self.save()
 
@@ -33,7 +32,7 @@ class Problem(models.Model):
     end_row = models.PositiveSmallIntegerField(blank=False)
     start_col = models.PositiveSmallIntegerField(blank=True, default=0)
     end_col = models.PositiveSmallIntegerField(blank=False)
-    rating = models.DecimalField(max_digits=12, decimal_places=4, blank=True, default=0)
+    rating = models.IntegerField(blank=True, default=0)
     responses = models.CharField(max_length=50000, blank=False)
     timestamp = models.DateTimeField(auto_now_add=True, blank=True)
     category = models.CharField(max_length=100, blank=False, default='')
@@ -74,7 +73,7 @@ class Attempt(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     problem = models.ForeignKey(Problem, on_delete=models.CASCADE, null=True)
     successful = models.BooleanField(default=False)
-    user_rating = models.DecimalField(max_digits=12, decimal_places=4, blank=True, default=0) # at that time
-    problem_rating = models.DecimalField(max_digits=12, decimal_places=4, blank=True, default=0) # at that time
+    user_rating = models.IntegerField(blank=True, default=0) # at that time
+    problem_rating = models.IntegerField(blank=True, default=0) # at that time
     duration = models.DecimalField(default=0, decimal_places=2, max_digits=6, blank=False)
     timestamp = models.DateTimeField(auto_now_add=True, blank=True)

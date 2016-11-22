@@ -36,6 +36,7 @@ urlpatterns = [
     url(r'^problems/next$', views.ProblemNext.as_view()),
 	url(r'^problems/(?P<pk>[0-9]+)/attempts$', views.CreateAttemptView.as_view()),
     url(r'^problems/(?P<pk>[0-9]+)/comments$', views.ProblemCommentsList.as_view()),
+	url(r'^rating$', views.rating),
     url(r'^comments/(?P<pk>[0-9]+)$', views.CommentDetail.as_view()),
     url(r'^comments/(?P<pk>[0-9]+)/vote$', views.VoteView.as_view()),
     url(r'^secrect', views.ExampleView.as_view()),	

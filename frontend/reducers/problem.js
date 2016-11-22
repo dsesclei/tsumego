@@ -13,6 +13,7 @@ for (let i = 0; i < 19; i++) {
 const initialState = {
   stones: initialStones,
   playerToMove: 'black',
+  moves: [],
   status: Constants.statusAttempting,
 };
 
@@ -119,6 +120,8 @@ function problem(state = initialState, action) {
       return respond(state);
     case 'RETRY':
       return retry(state);
+    case 'SKIP':
+      return { ...state, skip: true };
     case 'REPORT_ATTEMPT':
       return {
         ...state,

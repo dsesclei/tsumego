@@ -67,7 +67,7 @@ const Profile = ({ username, problems = [{ title: 'title1' }] }) => (
       <h3>{username}</h3>
       <Paper zDepth={3} className={css(styles.paper)}>
         <List>
-          <Subheader>Ranking</Subheader>
+          <Subheader>Rating</Subheader>
           <ListItem primaryText="1" leftIcon={<GroupWork />} disabled />
         </List>
         <Divider />

@@ -78,7 +78,6 @@ const styles = StyleSheet.create({
 class Problem extends React.Component {
   componentWillMount() {
     this.props.fetchProblem();
-    setTimeout(() => console.log('ok'));
   }
 
   render() {
@@ -90,15 +89,15 @@ class Problem extends React.Component {
       headerText = hasSucceeded ? 'Correct!' : 'Incorrect';
       buttons = (
         <div className={css(styles.buttons, styles.flexCenter)}>
-          <div><RaisedButton className={css(styles.button)} onClick={this.props.retry} label="Retry" /></div>
-          <div><RaisedButton className={css(styles.button)} containerElement={<Link to="/register" />} label="Next" /></div>
+          <div><RaisedButton className={css(styles.button)} onClick={() => this.props.fetchRating() || this.props.retry()} label="Retry" /></div>
+          <div><RaisedButton className={css(styles.button)} onClick={this.props.fetchProblem} label="Next" /></div>
         </div>
       );
     } else {
       buttons = (
         <div className={css(styles.buttons)}>
           <div><RaisedButton className={css(styles.button)} onClick={this.props.retry} label="Retry" disabled={this.props.moves.length === 0} /></div>
-          <div><RaisedButton className={css(styles.button)} containerElement={<Link to="/register" />} label="Skip" /></div>
+          <div><RaisedButton className={css(styles.button)} onClick={() => this.props.skip() || this.props.fetchProblem()} label="Skip" /></div>
         </div>
       );
     }
