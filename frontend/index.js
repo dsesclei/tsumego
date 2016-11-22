@@ -1,27 +1,15 @@
 import ReactDOM from 'react-dom';
 import React from 'react';
 import { Provider } from 'react-redux';
-import { applyMiddleware, createStore } from 'redux';
-import thunk from 'redux-thunk';
-import createLogger from 'redux-logger';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 import { AppContainer } from 'react-hot-loader';
 
-import reducers from './reducers';
+import store from './stores';
 import Root from './components/Root';
 
 // Needed for onTouchTap
 // http://stackoverflow.com/a/34015469/988941
 injectTapEventPlugin();
-
-const logger = createLogger();
-
-const persistedState = localStorage.getItem('reduxState') ? JSON.parse(localStorage.getItem('reduxState')) : {}
-const store = createStore(reducers, persistedState, applyMiddleware(thunk, logger));
-
-store.subscribe(()=>{
-  localStorage.setItem('reduxState', JSON.stringify(store.getState()))
-})
 
 ReactDOM.render((
   <AppContainer>

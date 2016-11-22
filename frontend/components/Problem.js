@@ -17,9 +17,8 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
   },
   problem: {
-    marginTop: '30px',
+    marginTop: '15px',
     display: 'flex',
-    flex: '1',
     alignItems: 'center',
     justifyContent: 'center',
     flexDirection: 'row',
@@ -98,6 +97,7 @@ class Problem extends React.Component {
     } else {
       buttons = (
         <div className={css(styles.buttons)}>
+          <div><RaisedButton className={css(styles.button)} onClick={this.props.retry} label="Retry" disabled={this.props.moves.length === 0} /></div>
           <div><RaisedButton className={css(styles.button)} containerElement={<Link to="/register" />} label="Skip" /></div>
         </div>
       );

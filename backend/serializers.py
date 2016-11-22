@@ -75,7 +75,8 @@ class UserSerializer(serializers.ModelSerializer):
             #last_name=validated_data['last_name']
         )
         user.set_password(validated_data['password'])
-        user.save()
         profile = models.UserProfile(user=user)
         profile.save()
+        user.profile = profile
+        user.save()
         return user

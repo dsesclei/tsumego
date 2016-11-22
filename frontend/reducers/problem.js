@@ -12,10 +12,6 @@ for (let i = 0; i < 19; i++) {
 
 const initialState = {
   stones: initialStones,
-  responses: {
-    start: {},
-  },
-  moves: [],
   playerToMove: 'black',
   status: Constants.statusAttempting,
 };
@@ -60,7 +56,6 @@ function respond(state) {
     if (move in node) {
       node = node[move];
     } else {
-      nextStatus = Constants.statusFailed;
       break;
     }
   }
@@ -73,8 +68,8 @@ function respond(state) {
     applyMove(stones, [row, col], playerNumber);
   }
 
-  if ('success' in node) {
-    nextStatus = node.success ? Constants.statusSucceeded : Constants.statusFailed;
+  if ('success' in node && node.success) {
+    nextStatus = Constants.statusSucceeded;
   } else if (!('responses' in node)) {
     nextStatus = Constants.statusFailed;
   }
@@ -90,12 +85,15 @@ function respond(state) {
 function fetchProblemSuccess(state, action) {
   return {
     ...state,
+    id: action.problem.pk,
     initialStones: JSON.parse(action.problem.board), // Save copy for retry
     stones: JSON.parse(action.problem.board),
     responses: JSON.parse(action.problem.responses),
     moves: [],
     status: Constants.statusAttempting,
     playerToMove: 'black',
+    hasReportedAttempt: false,
+    shouldReportAttempt: true,
   };
 }
 
@@ -107,6 +105,7 @@ function retry(state) {
     moves: [],
     status: Constants.statusAttempting,
     playerToMove: 'black',
+    shouldReportAttempt: false,
   };
 }
 
@@ -120,6 +119,11 @@ function problem(state = initialState, action) {
       return respond(state);
     case 'RETRY':
       return retry(state);
+    case 'REPORT_ATTEMPT':
+      return {
+        ...state,
+        hasReportedAttempt: true,
+      };
   }
   return state;
 }

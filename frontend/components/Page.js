@@ -19,6 +19,7 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '100%',
     display: 'flex',
+    minHeight: '100vh',
     flexDirection: 'column',
   },
   content: {

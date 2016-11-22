@@ -76,5 +76,5 @@ class Attempt(models.Model):
     successful = models.BooleanField(default=False)
     user_rating = models.DecimalField(max_digits=12, decimal_places=4, blank=True, default=0) # at that time
     problem_rating = models.DecimalField(max_digits=12, decimal_places=4, blank=True, default=0) # at that time
-    duration = models.DurationField(default=0)
+    duration = models.DecimalField(default=0, decimal_places=2, max_digits=6, blank=False)
     timestamp = models.DateTimeField(auto_now_add=True, blank=True)
