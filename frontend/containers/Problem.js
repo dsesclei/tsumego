@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { placeStone, fetchProblem, fetchRating, skip } from '../actions';
+import { placeStone, fetchProblem, fetchRating, skip, retry } from '../actions';
 import Problem from '../components/Problem';
 
 const mapStateToProps = (state) => {
@@ -8,7 +8,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    retry: () => dispatch({ type: 'RETRY' }),
+    retry: () => dispatch(retry()),
     skip: () => dispatch(skip()),
     fetchRating: () => dispatch(fetchRating()),
     fetchProblem: () => dispatch(fetchProblem()),

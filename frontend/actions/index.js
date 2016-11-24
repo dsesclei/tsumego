@@ -80,15 +80,10 @@ export function signOutRequest() {
 }
 
 export function fetchRating() {
-  console.log('hi');
-  console.log('hi');
-  console.log('hi');
-  console.log('hi');
-  console.log('hi');
   return dispatch => {
     dispatch({ type: 'FETCH_RATING' });
     const persistedState = localStorage.getItem('reduxState') ? JSON.parse(localStorage.getItem('reduxState')) : {};
-    fetch('/rating', {
+    return fetch('/rating', {
       method: 'GET',
       headers: { 'Content-Type': 'application/json', 'Authorization': `JWT ${persistedState.user.id_token}` },
     }).then(r => r.json().then(json => {
@@ -100,14 +95,15 @@ export function fetchRating() {
 export function fetchProblem() {
   return dispatch => {
     dispatch({ type: 'FETCH_PROBLEM' });
-    fetch('/problems/next', { method: 'GET' }).then(r => r.json().then(json => {
+    return fetch('/problems/next', { method: 'GET' }).then(r => r.json().then(json => {
       dispatch({ type: 'FETCH_PROBLEM_SUCCESS', problem: json });
       dispatch({ type: 'FETCH_PROBLEM_COMMENTS' });
-      fetch(`/problems/${json.pk}/comments`, { method: 'GET' }).then(r => r.json().then(json => {
+      return fetch(`/problems/${json.pk}/comments`, { method: 'GET' }).then(r => r.json().then(json => {
         dispatch({ type: 'FETCH_PROBLEM_COMMENTS_SUCCESS', comments: json });
-      }));
+      })).then(() => {
+        return fetchRating()(dispatch);
+      })
     }));
-    fetchRating()(dispatch);
   };
 }
 
@@ -188,4 +184,16 @@ export function placeStone(row, col) {
       dispatch({ type: 'RESPOND' });
     }, 250);
   };
+}
+
+export function reportAttempt() {
+  return { type: 'REPORT_ATTEMPT' };
+}
+
+export function reportAttemptSuccess() {
+  return { type: 'REPORT_ATTEMPT_SUCCESS' };
+}
+
+export function retry() {
+  return { type: 'RETRY' };
 }

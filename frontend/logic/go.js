@@ -2,25 +2,25 @@ const settings = {
   size: 19,
 };
 
-function isValidPoint(point) {
+export function isValidPoint(point) {
   const [row, col] = point;
   return point.length === 2 && !isNaN(row) && !isNaN(col) && row >= 0 && row < settings.size && col >= 0 && col < settings.size;
 }
 
-function getValue(stones, point) {
+export function getValue(stones, point) {
   return stones[point[0]][point[1]];
 }
 
-function setValue(stones, point, value) {
+export function setValue(stones, point, value) {
   stones[point[0]][point[1]] = value;
 }
 
-function getOrthogonalNeighbors([row, col]) {
+export function getOrthogonalNeighbors([row, col]) {
   const neighbors = [[row + 1, col], [row - 1, col], [row, col + 1], [row, col - 1]];
   return neighbors.filter(isValidPoint);
 }
 
-function countLiberties(stones, point, visitedPoints = null) {
+export function countLiberties(stones, point, visitedPoints = null) {
   if (!isValidPoint(point)) {
     throw new Error('Invalid point');
   }
@@ -53,13 +53,13 @@ function countLiberties(stones, point, visitedPoints = null) {
 }
 
 // Checks if a play at move by player would capture any stones
-function isCapturingMove(stones, move, player) {
+export function isCapturingMove(stones, move, player) {
   return getOrthogonalNeighbors(move)
     .filter(neighbor => getValue(stones, neighbor) === player * -1)
     .some(neighbor => countLiberties(stones, neighbor) === 0);
 }
 
-function isLegalMove(stones, move, playerToMove) {
+export function isLegalMove(stones, move, playerToMove) {
   if (!isValidPoint(move)) {
     throw new Error('Invalid point');
   }
@@ -86,7 +86,7 @@ function isLegalMove(stones, move, playerToMove) {
   return false;
 }
 
-function removeGroup(stones, point) {
+export function removeGroup(stones, point) {
   if (!isValidPoint(point)) {
     throw new Error('Invalid point');
   }
@@ -106,7 +106,7 @@ function removeGroup(stones, point) {
 }
 
 
-function applyMove(stones, move, playerToMove) {
+export function applyMove(stones, move, playerToMove) {
   if (isLegalMove(stones, move, playerToMove)) {
     setValue(stones, move, playerToMove);
 
@@ -118,5 +118,3 @@ function applyMove(stones, move, playerToMove) {
 
   return stones;
 }
-
-export { isLegalMove, applyMove };

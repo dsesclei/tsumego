@@ -3,7 +3,7 @@ import thunk from 'redux-thunk';
 import createLogger from 'redux-logger';
 import reducer from '../reducers';
 import Constants from '../constants';
-import { fetchProblem, fetchRating } from '../actions';
+import { fetchProblem, fetchRating, reportAttempt, reportAttemptSuccess } from '../actions';
 
 const logger = createLogger();
 
@@ -33,7 +33,7 @@ function reportAttempt(id, successful, duration) {
       }),
     },
   ).then(r => r.json()).then(json => {
-    store.dispatch({ type: 'REPORT_ATTEMPT_SUCCESS' });
+    store.dispatch(reportAttemptSuccess());
     store.dispatch(fetchRating());
   });
 }
@@ -44,7 +44,7 @@ store.subscribe(() => {
 
   if (!hasReportedAttempt && (status === Constants.statusSucceeded || status === Constants.statusFailed)) {
     reportAttempt(id, status === Constants.statusSucceeded, Math.floor(Math.random() * 10));
-    store.dispatch({ type: 'REPORT_ATTEMPT' });
+    store.dispatch(reportAttempt());
   }
 });
 
