@@ -21,7 +21,7 @@ store.subscribe(() => {
 // Problem
 // ---------
 
-function reportAttempt(id, successful, duration) {
+function reportAttemptAjax(id, successful, duration) {
   const persistedState = getPersistedState();
   fetch(`/problems/${id}/attempts`,
     {
@@ -43,7 +43,7 @@ store.subscribe(() => {
   const { id, hasReportedAttempt, status } = problem;
 
   if (!hasReportedAttempt && (status === Constants.statusSucceeded || status === Constants.statusFailed)) {
-    reportAttempt(id, status === Constants.statusSucceeded, Math.floor(Math.random() * 10));
+    reportAttemptAjax(id, status === Constants.statusSucceeded, Math.floor(Math.random() * 10));
     store.dispatch(reportAttempt());
   }
 });
