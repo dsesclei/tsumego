@@ -42,29 +42,29 @@ const styles = StyleSheet.create({
 const Help = () => (
   <Page>
       <div className={css(styles.banner)}>
-        <div className={css(styles.title)}>frequently asked questions</div>
+        <div className={css(styles.title)}>frequently asked questions / rules</div>
         </div>
       <div className={css(styles.questionContainer)}>
-        <div className={css(styles.question)}>1. Lorem ipsum</div>
+        <div className={css(styles.question)}>1. What is Go?</div>
         <div className={css(styles.answer)}>
-          <p>Lorem ipsum dolor sit amet, inani atomorum et vis, vim ei quis paulo fabulas, illum eripuit vis ut. Te nulla voluptua sapientem ius. Ea diam integre eos, meis audiam te vel. Et sea viris fabellas phaedrum, id his persius lucilius torquatos, no est falli altera prompta.</p>
+          <p>Go is a strategy board game originating in China circa 3,500 BC. The game is designed for two players, but with the advent of computers you can master your skills individually!</p>
           </div>
-          <div className={css(styles.question)}>2. Mei eu veri constituam</div>
+          <div className={css(styles.question)}>2. How is the game played?</div>
           <div className={css(styles.answer)}>
-            <p>his ad errem iuvaret. Rebum ullum patrioque cu qui. Vix eirmod sensibus id, bonorum definitionem ne sed. Ornatus vivendo urbanitas nam eu, ea atomorum efficiantur pri. Ad his errem aliquip consequat, eros delenit usu ut, pri ornatus epicurei ne. Quod oratio gloriatur at qui, nibh prompta pertinax ea ius.</p>
+            <p>Basically, each player places a piece during their turn alternating turns making only one move each turn by placing their colored stone (typically black & white) on an intersection of the (typically 19 x 19) Go board. The player with the black stones begins the game and each player alternate turns, trying to gain territory and take territory from their opponent (by surrounding their tiles with yours). Therefore, the goal of the game is to occupy more spaces on the board.</p>
             </div>
-          <div className={css(styles.question)}>3. Eu adolescens posidonium reprehendunt eum.</div>
           <div className={css(styles.answer)}>
-            <p>Veniam iuvaret concludaturque mel eu, veritus mnesarchum et duo. Bonorum impedit scribentur ea sed, te munere propriae vim. Saepe eleifend assueverit mei an. Mei cu detracto expetenda, graeci reprimique no duo.</p>
+            <p>Too learn more about the specifics of gameplay (based of traditional Chinese rules), check these resources out:
+https://www.cs.cmu.edu/~wjh/go/rules/Chinese.html</p>
             </div>
-            <div className={css(styles.question)}>4. Te duo doctus urbanitas. </div>
+          <div className={css(styles.question)}>3. What is Tsumego?</div>
+          <div className={css(styles.answer)}>
+            <p>Tsumego is a type of problem for the boardgame Go, which mirrors potential situations a player may encounter in a real full-length Go game. These problems help players learn through experience, how to identify and make the correct decisions in "life-and-death" circumstances. By automating the opponents moves, you can solve your way through each problemset to quite literally move your way through the ranks!</p>
+            </div>
+            <div className={css(styles.question)}>4. How can I increase my ranking so I know I'm improving?</div>
             <div className={css(styles.answer)}>
-              <p>Qui in primis eripuit theophrastus, his no quodsi expetendis. Meis efficiendi definitiones ut eam, aliquid voluptatum ei nec. Id populo tritani iracundia est, impedit alienum adolescens vel ea. Nam iusto dolorem ne. At sed harum dictas insolens, ne vel amet animal eloquentiam.</p>
+              <p>By solving problems well, your ranking will be updated not only based on your current ranking, but also on the difficulty ranking and time it toook to complete that problem.</p>
               </div>
-              <div className={css(styles.question)}>5. Pro id elitr rationibus reprimique.</div>
-              <div className={css(styles.answer)}>
-                <p> Wisi vivendo qui ea, mel esse posse scriptorem at. Iriure petentium concludaturque ad has. Rebum legendos argumentum ne per. An delenit nominavi scribentur pri, impetus eruditi vim in. Ea propriae accumsan pri, ex mel euismod assentior.</p>
-                </div>
       </div>
   </Page>
 );
